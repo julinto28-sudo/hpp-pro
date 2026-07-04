@@ -39,6 +39,26 @@
             "userId": "user_1025b54e1369deee",
             "username": "admin",
             "expiresAt": 1785752108
+        },
+        "61c7dc5ecc3d569f0fd4353353d1faab5d3aebab63c30abab835e16e8966387e": {
+            "userId": "user_1025b54e1369deee",
+            "username": "admin",
+            "expiresAt": 1785776552
+        },
+        "3a95f788d129a0754b24bfe145d9926532907e97aafd7e9d13fdd62bd590ca3f": {
+            "userId": "user_1025b54e1369deee",
+            "username": "admin",
+            "expiresAt": 1785776574
+        },
+        "13156cf348930174cc9fccc44f79b5cb0fc7360b67e99c806ad8106b557c784f": {
+            "userId": "user_1025b54e1369deee",
+            "username": "admin",
+            "expiresAt": 1785776679
+        },
+        "81ffbf7e8d10098d0eee4ebc5516811283a0cd7e1fa451b461067b11f85d7e8f": {
+            "userId": "user_1025b54e1369deee",
+            "username": "admin",
+            "expiresAt": 1785777082
         }
     },
     "userData": {
@@ -92,13 +112,13 @@
                     "id": "p_1783105101980",
                     "name": "Caramel Frappe",
                     "batchSize": 1,
-                    "sellingPrice": 45500,
+                    "sellingPrice": 22000,
                     "targetMargin": 20,
                     "image": "beverage",
                     "materials": [
                         {
                             "materialId": "m_1783104862627",
-                            "quantity": 600
+                            "quantity": 200
                         },
                         {
                             "materialId": "m_1783104906573",

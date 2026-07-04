@@ -1540,6 +1540,7 @@
         state.token = data.token;
         state.user = data.user;
 
+        closeAuthModal();
         bootstrap();
       } catch (err) {
         errorDiv.classList.remove('hidden');
@@ -1552,6 +1553,7 @@
       localStorage.removeItem('hpp_user');
       state.token = null;
       state.user = null;
+      closeAuthModal();
       bootstrap();
     }
 
@@ -2568,14 +2570,14 @@
       const unitLabel = selectedMat ? (selectedMat.usageUnit || selectedMat.unit) : 'nilai';
 
       div.innerHTML = `
-        <select onchange="updateRowUnitText(this)" class="p-mat-select flex-1 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold" required>
+        <select onchange="updateRowUnitText(this)" class="p-mat-select flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold text-xs sm:text-sm" required>
           ${optionsHtml}
         </select>
-        <div class="relative w-28">
-          <input type="number" oninput="calculateModalLiveHpp()" class="p-mat-qty w-full bg-white border border-slate-200 rounded-lg pl-2 pr-10 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold" placeholder="Qty" value="${quantity}" min="0.001" step="any" required>
+        <div class="relative w-28 shrink-0">
+          <input type="number" oninput="calculateModalLiveHpp()" class="p-mat-qty w-full bg-white border border-slate-200 rounded-lg pl-2 pr-10 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold text-xs sm:text-sm" placeholder="Qty" value="${quantity}" min="0.001" step="any" required>
           <span class="p-mat-unit-badge absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 font-bold">${unitLabel}</span>
         </div>
-        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
+        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer shrink-0"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
       `;
 
       container.appendChild(div);
@@ -2599,14 +2601,14 @@
       });
 
       div.innerHTML = `
-        <select onchange="calculateModalLiveHpp()" class="p-lab-select flex-1 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold" required>
+        <select onchange="calculateModalLiveHpp()" class="p-lab-select flex-1 min-w-0 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold text-xs sm:text-sm" required>
           ${optionsHtml}
         </select>
-        <div class="relative w-28">
-          <input type="number" oninput="calculateModalLiveHpp()" class="p-lab-val w-full bg-white border border-slate-200 rounded-lg pl-2 pr-8 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold" placeholder="Jam/Unit" value="${value}" min="0.01" step="any" required>
+        <div class="relative w-28 shrink-0">
+          <input type="number" oninput="calculateModalLiveHpp()" class="p-lab-val w-full bg-white border border-slate-200 rounded-lg pl-2 pr-8 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold text-xs sm:text-sm" placeholder="Jam/Unit" value="${value}" min="0.01" step="any" required>
           <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 font-bold">durasi</span>
         </div>
-        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
+        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer shrink-0"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
       `;
 
       container.appendChild(div);
