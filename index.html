@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HPP Master - Kalkulator HPP & Profit Profesional</title>
   
+  <!-- Favicon and PWA Manifest -->
+  <link rel="icon" type="image/jpeg" href="/icon-512.jpg">
+  <link rel="apple-touch-icon" href="/icon-512.jpg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#4F46E5">
+  
   <!-- CSS Framework & Fonts via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1217,21 +1223,75 @@
   <!-- GLOBAL SCRIPT SYSTEM (Pure Modern ES6 JavaScript) -->
   <script>
     // Helper to get correct API URL depending on server environment (Node/Vite vs XAMPP/Shared Hosting)
-    function getApiUrl(endpoint) {
+    // Global API route prefix for auto-detection
+    window.apiPrefix = '';
+
+    async function detectApiPrefix() {
       const isAiStudio = window.location.hostname.includes('run.app') || 
                          window.location.hostname.includes('studio') || 
                          window.location.port === '3000';
-                         
+                          
       if (isAiStudio) {
-        return '/api/' + endpoint;
+        window.apiPrefix = '/api/';
+        return;
       }
-      
-      const path = window.location.pathname;
-      if (path === '/' || path === '/index.html') {
-        return '/api/' + endpoint;
+
+      // Check different relative paths to find where api.php is active
+      const tests = [
+        './api.php?route=',
+        './public/api.php?route=',
+        'api.php?route=',
+        'public/api.php?route='
+      ];
+
+      for (const prefix of tests) {
+        try {
+          const res = await fetch(prefix + 'health', { method: 'GET' });
+          if (res.ok) {
+            const text = await res.text();
+            if (text.includes('Backend is ready!')) {
+              window.apiPrefix = prefix;
+              console.log('Successfully auto-detected API prefix:', prefix);
+              return;
+            }
+          }
+        } catch (e) {
+          // Continue to next test
+        }
       }
-      
-      return './public/api.php?route=' + endpoint;
+
+      // Default fallback
+      window.apiPrefix = './api.php?route=';
+      console.warn('Fallback to standard API prefix:', window.apiPrefix);
+    }
+
+    function getApiUrl(endpoint) {
+      let baseUrl = '';
+      if (window.apiPrefix) {
+        baseUrl = window.apiPrefix + endpoint;
+      } else {
+        const isAiStudio = window.location.hostname.includes('run.app') || 
+                           window.location.hostname.includes('studio') || 
+                           window.location.port === '3000';
+                            
+        if (isAiStudio) {
+          baseUrl = '/api/' + endpoint;
+        } else {
+          const path = window.location.pathname;
+          if (path === '/' || path === '/index.html') {
+            baseUrl = '/api/' + endpoint;
+          } else {
+            baseUrl = './public/api.php?route=' + endpoint;
+          }
+        }
+      }
+
+      // Append token as query parameter as robust backup for shared hosting (stripping headers)
+      if (typeof state !== 'undefined' && state && state.token) {
+        const separator = baseUrl.includes('?') ? '&' : '?';
+        baseUrl += separator + 'token=' + encodeURIComponent(state.token);
+      }
+      return baseUrl;
     }
 
     // State Management
@@ -1323,8 +1383,9 @@
     };
 
     // Initialize System
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       lucide.createIcons();
+      await detectApiPrefix();
       bootstrap();
 
       // Bind live HPP triggers
@@ -1534,7 +1595,11 @@
       try {
         const url = getApiUrl('data');
         const response = await fetch(url, {
-          headers: { 'Authorization': `Bearer ${state.token}` }
+          headers: { 
+            'Authorization': `Bearer ${state.token}`,
+            'X-Authorization': `Bearer ${state.token}`,
+            'X-Auth-Token': state.token
+          }
         });
         
         const responseText = await response.text();
@@ -1574,7 +1639,9 @@
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${state.token}`
+            'Authorization': `Bearer ${state.token}`,
+            'X-Authorization': `Bearer ${state.token}`,
+            'X-Auth-Token': state.token
           },
           body: JSON.stringify({
             materials: state.materials,

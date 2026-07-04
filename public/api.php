@@ -13,7 +13,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 // Enable CORS
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Authorization, X-Auth-Token, X-Requested-With");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Content-Type: application/json");
 
@@ -115,6 +115,10 @@ $route = isset($_GET['route']) ? trim($_GET['route'], '/') : '';
 
 // Handle routes
 switch ($route) {
+    case 'health':
+        echo json_encode(["status" => "ok", "message" => "Backend is ready!"]);
+        exit();
+
     case 'auth/register':
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             http_response_code(405);
@@ -377,23 +381,66 @@ switch ($route) {
 
 // Authentication guard helper
 function authenticateUser() {
-    $headers = apache_request_headers();
-    $authHeader = isset($headers['Authorization']) ? $headers['Authorization'] : '';
-    
-    if (empty($authHeader)) {
-        // Fallback for servers not supporting Apache headers easily
-        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+    $token = '';
+
+    // 1. Check GET/POST query parameter 'token'
+    if (isset($_GET['token']) && !empty($_GET['token'])) {
+        $token = trim($_GET['token']);
+    } elseif (isset($_POST['token']) && !empty($_POST['token'])) {
+        $token = trim($_POST['token']);
+    } else {
+        // 2. Check Apache request headers
+        $headers = apache_request_headers();
+        
+        // Normalize headers to lowercase keys for reliable check
+        $normalized_headers = [];
+        if (is_array($headers)) {
+            foreach ($headers as $k => $v) {
+                $normalized_headers[strtolower($k)] = $v;
+            }
+        }
+
+        if (isset($normalized_headers['authorization'])) {
+            $authHeader = $normalized_headers['authorization'];
+        } elseif (isset($normalized_headers['x-authorization'])) {
+            $authHeader = $normalized_headers['x-authorization'];
+        } elseif (isset($normalized_headers['x-auth-token'])) {
+            $authHeader = $normalized_headers['x-auth-token'];
+        } else {
+            $authHeader = '';
+        }
+
+        // 3. Fallback to $_SERVER variables
+        if (empty($authHeader)) {
+            if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+                $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+            } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+                $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+            } elseif (isset($_SERVER['HTTP_X_AUTHORIZATION'])) {
+                $authHeader = $_SERVER['HTTP_X_AUTHORIZATION'];
+            } elseif (isset($_SERVER['HTTP_X_AUTH_TOKEN'])) {
+                $authHeader = $_SERVER['HTTP_X_AUTH_TOKEN'];
+            }
+        }
+
+        // Extract token from Bearer prefix if exists
+        if (!empty($authHeader)) {
+            if (strpos($authHeader, 'Bearer ') === 0) {
+                $token = substr($authHeader, 7);
+            } else {
+                $token = $authHeader;
+            }
         }
     }
-    
-    if (empty($authHeader) || strpos($authHeader, 'Bearer ') !== 0) {
+
+    $token = trim($token);
+
+    if (empty($token)) {
         http_response_code(401);
         echo json_encode(["message" => "Otorisasi ditolak. Silakan login terlebih dahulu."]);
         exit();
     }
     
-    $token = substr($authHeader, 7);
     $db = loadDb();
     
     if (!isset($db['tokens'][$token])) {
