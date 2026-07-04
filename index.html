@@ -6,8 +6,8 @@
   <title>HPP Master - Kalkulator HPP & Profit Profesional</title>
   
   <!-- Favicon and PWA Manifest -->
-  <link rel="icon" type="image/jpeg" href="/icon-512.jpg">
-  <link rel="apple-touch-icon" href="/icon-512.jpg">
+  <link rel="icon" type="image/jpeg" href="public/icon-512.jpg">
+  <link rel="apple-touch-icon" href="public/icon-512.jpg">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#4F46E5">
   
@@ -557,11 +557,38 @@
             </div>
           </div>
 
+          <!-- Security Question (Only for Register & Forgot Password) -->
+          <div id="auth-security-question-container" class="hidden space-y-1.5 animate-fade-in">
+            <label for="security-question" class="text-xs font-semibold text-slate-300">Pertanyaan Keamanan (Untuk Pemulihan Akun)</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i data-lucide="help-circle" class="w-4 h-4"></i></span>
+              <select id="security-question" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option value="pet">Siapa nama hewan peliharaan pertama Anda?</option>
+                <option value="school">Apa nama sekolah dasar (SD) Anda?</option>
+                <option value="city">Di kota mana Anda dilahirkan?</option>
+                <option value="mother">Siapa nama gadis ibu kandung Anda?</option>
+                <option value="pin">PIN Pemulihan Rahasia (6 Angka)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Security Answer (Only for Register & Forgot Password) -->
+          <div id="auth-security-answer-container" class="hidden space-y-1.5 animate-fade-in">
+            <label for="security-answer" class="text-xs font-semibold text-slate-300">Jawaban Keamanan / PIN</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i data-lucide="key-round" class="w-4 h-4"></i></span>
+              <input type="text" id="security-answer" placeholder="Masukkan jawaban Anda" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-600">
+            </div>
+          </div>
+
           <div class="space-y-1.5">
             <label for="password" class="text-xs font-semibold text-slate-300">Password</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i data-lucide="lock" class="w-4 h-4"></i></span>
               <input type="password" id="password" required minlength="5" placeholder="Masukkan password" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-600">
+            </div>
+            <div id="auth-forgot-link-container" class="flex justify-end pt-1">
+              <button type="button" onclick="toggleAuthTab('forgot')" class="text-[11px] font-semibold text-indigo-400 hover:text-indigo-300 transition cursor-pointer">Lupa Password?</button>
             </div>
           </div>
 
@@ -641,6 +668,10 @@
               <i data-lucide="chef-hat" class="w-4 h-4"></i>
               <span>Hitung HPP</span>
             </button>
+            <button onclick="switchTab('bep')" id="nav-bep" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="calculator" class="w-4 h-4"></i>
+              <span>Kalkulator BEP</span>
+            </button>
             <button onclick="switchTab('backup')" id="nav-backup" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
               <i data-lucide="database" class="w-4 h-4"></i>
               <span>Cadangan & Demo</span>
@@ -663,6 +694,25 @@
               Selamat datang kembali! Kelola database biaya bahan baku, tarif tenaga kerja, dan overhead bulanan untuk menetapkan harga jual yang presisi dan menguntungkan.
             </p>
           </div>
+        </div>
+
+        <!-- Security Setup Warning Alert -->
+        <div id="security-warning-alert" class="hidden bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 md:p-5 text-slate-800 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 animate-fade-in">
+          <div class="flex items-start gap-3">
+            <div class="bg-amber-100 text-amber-700 p-2 rounded-xl shrink-0">
+              <i data-lucide="shield-alert" class="w-5.5 h-5.5 animate-pulse"></i>
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-slate-800">Akun Anda Belum Dilindungi Pertanyaan Keamanan!</h3>
+              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
+                Silakan konfigurasikan pertanyaan keamanan sekarang agar Anda dapat memulihkan password jika sewaktu-waktu Anda lupa.
+              </p>
+            </div>
+          </div>
+          <button onclick="openSecuritySetupModal()" class="w-full sm:w-auto px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shrink-0 shadow-sm">
+            <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
+            Atur Keamanan Sekarang
+          </button>
         </div>
 
         <!-- Volume Produksi Bulanan Global -->
@@ -919,6 +969,156 @@
         </div>
       </div>
 
+      <!-- TAB: BEP -->
+      <div id="tab-content-bep" class="hidden space-y-6 animate-fade-in">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Kalkulator Break-Even Point (BEP)</h2>
+            <p class="text-xs text-slate-500">Ketahui titik impas penjualan untuk memastikan bisnis kuliner Anda tidak merugi.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Left: Input parameters -->
+          <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-5 text-xs">
+            <h3 class="font-bold text-slate-800 text-sm border-b border-slate-50 pb-2 flex items-center gap-2">
+              <i data-lucide="sliders" class="w-4 h-4 text-indigo-500"></i>
+              Parameter Input BEP
+            </h3>
+
+            <div class="space-y-4">
+              <!-- Select Product -->
+              <div class="space-y-1.5">
+                <label class="font-bold text-slate-600 block">Pilih Produk Jadi (Opsional)</label>
+                <select id="bep-product-select" onchange="onBepProductSelectChange(this.value)" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+                  <!-- Dynamically populated -->
+                </select>
+                <p class="text-[10px] text-slate-400">Pilih produk terdaftar untuk otomatis memuat harga jual dan taksiran biaya variabel.</p>
+              </div>
+
+              <!-- Input Harga Jual -->
+              <div class="space-y-1.5">
+                <label class="font-bold text-slate-600 block">Harga Jual per Unit (Rp)</label>
+                <input type="number" id="bep-selling-price" oninput="calculateBepResult()" value="15000" min="1" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-bold">
+                <p class="text-[10px] text-slate-400">Harga yang dibayar oleh konsumen untuk satu unit produk.</p>
+              </div>
+
+              <!-- Input Biaya Variabel -->
+              <div class="space-y-1.5">
+                <label class="font-bold text-slate-600 block">Biaya Variabel per Unit (Rp)</label>
+                <input type="number" id="bep-variable-cost" oninput="calculateBepResult()" value="8000" min="0" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-bold">
+                <p class="text-[10px] text-slate-400">Biaya yang bertambah seiring jumlah produksi (Bahan Baku + Upah Unit/Pekerja).</p>
+                <div id="bep-variable-breakdown" class="hidden text-[10px] bg-slate-50 border border-slate-100 p-2.5 rounded-xl space-y-1 font-semibold text-slate-500 mt-1">
+                  <!-- Breakdown shown if product is chosen -->
+                </div>
+              </div>
+
+              <!-- Input Biaya Tetap (Fixed Cost) -->
+              <div class="space-y-1.5">
+                <label class="font-bold text-slate-600 block">Total Biaya Tetap Bulanan (Rp)</label>
+                <div class="flex gap-2">
+                  <input type="number" id="bep-fixed-cost" oninput="calculateBepResult()" value="1500000" min="0" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-bold">
+                  <button onclick="bepLoadCurrentOverhead()" class="px-3 bg-indigo-50 text-indigo-700 border border-indigo-100 hover:bg-indigo-100 font-bold rounded-xl transition cursor-pointer shrink-0" title="Muat dari BOP saat ini">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <p class="text-[10px] text-slate-400">Pengeluaran bulanan yang tidak tergantung volume produksi (Sewa, gaji tetap bulanan, internet, listrik dsb). Default dimuat dari total BOP Anda.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: BEP Calculation Results -->
+          <div class="lg:col-span-7 space-y-6">
+            <!-- Summary card -->
+            <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+              <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest block">Hasil Analisis Break-Even Point</span>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 border-b border-slate-800/60 pb-6">
+                <div class="space-y-1 text-center sm:text-left">
+                  <span class="text-xs text-slate-400">BEP (Target Unit Terjual)</span>
+                  <div class="text-3xl sm:text-4xl font-extrabold text-indigo-300 font-mono" id="bep-result-units">0 unit</div>
+                  <span class="text-[10px] text-slate-400">per Bulan</span>
+                </div>
+                <div class="space-y-1 text-center sm:text-left sm:border-l sm:border-slate-800 sm:pl-6">
+                  <span class="text-xs text-slate-400">BEP (Omset Minimum)</span>
+                  <div class="text-3xl sm:text-4xl font-extrabold text-indigo-300 font-mono" id="bep-result-rupiah">Rp 0</div>
+                  <span class="text-[10px] text-slate-400">Pendapatan minimal</span>
+                </div>
+              </div>
+
+              <!-- Recommendation block -->
+              <div class="space-y-2 bg-indigo-950/40 border border-indigo-500/20 p-4 rounded-xl">
+                <h4 class="text-xs font-bold text-indigo-300 flex items-center gap-1.5">
+                  <i data-lucide="info" class="w-4 h-4"></i>
+                  Analisis Taktis & Kelayakan Usaha
+                </h4>
+                <p class="text-xs text-slate-300 leading-relaxed font-semibold" id="bep-recommendation-text">
+                  -- Masukkan data dengan benar untuk melihat analisis kelayakan usaha Anda --
+                </p>
+              </div>
+
+              <!-- Comparing slider/progress bar comparing volume vs bep -->
+              <div class="space-y-3 pt-2" id="bep-volume-comparison-wrapper">
+                <div class="flex justify-between text-xs">
+                  <span class="text-slate-300">Titik Impas (BEP): <b id="bep-bar-bep-val" class="font-mono text-indigo-300">0 unit</b></span>
+                  <span class="text-slate-300">Kapasitas Produksi Anda: <b id="bep-bar-vol-val" class="font-mono text-white">0 unit</b></span>
+                </div>
+                <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden relative border border-slate-700/50">
+                  <div id="bep-progress-bar" class="h-full bg-indigo-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p class="text-[10px] text-slate-400 text-center italic" id="bep-bar-status-text">Kapasitas Anda berada pada 0% dari titik impas.</p>
+              </div>
+            </div>
+
+            <!-- Target Profit Simulator block -->
+            <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-5 text-xs">
+              <h3 class="font-bold text-slate-800 text-sm border-b border-slate-50 pb-2 flex items-center gap-2">
+                <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i>
+                Simulator Laba Bersih & Target Omset
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                <div class="sm:col-span-1 space-y-1.5">
+                  <label class="font-bold text-slate-600 block">Target Laba Bersih Bulanan (Rp)</label>
+                  <input type="number" id="bep-target-profit" oninput="calculateBepResult()" value="5000000" min="0" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-bold">
+                </div>
+
+                <!-- Simulation Results -->
+                <div class="sm:col-span-2 grid grid-cols-2 gap-3 bg-emerald-50/50 border border-emerald-100/40 p-3 rounded-xl">
+                  <div class="space-y-1">
+                    <span class="text-[9px] uppercase tracking-wider text-slate-500 block">Target Penjualan</span>
+                    <span class="text-base font-extrabold text-emerald-700 font-mono block" id="bep-target-units-needed">0 unit</span>
+                    <span class="text-[9px] text-slate-400">harus terjual</span>
+                  </div>
+                  <div class="space-y-1 border-l border-emerald-100/80 pl-3">
+                    <span class="text-[9px] uppercase tracking-wider text-slate-500 block">Target Omset Bulanan</span>
+                    <span class="text-base font-extrabold text-emerald-700 font-mono block" id="bep-target-revenue-needed">Rp 0</span>
+                    <span class="text-[9px] text-slate-400">omset kotor</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Informative guidelines -->
+              <div class="bg-slate-50/60 p-4 rounded-xl border border-slate-100 space-y-2 text-slate-500 leading-relaxed">
+                <h4 class="font-bold text-slate-700 flex items-center gap-1">
+                  <i data-lucide="help-circle" class="w-3.5 h-3.5 text-indigo-500"></i>
+                  Cara Menggunakan Kalkulator BEP
+                </h4>
+                <p class="text-[10px]">
+                  1. **Pilih Produk** jika Anda ingin langsung memuat struktur biaya resep yang sudah diracik.
+                </p>
+                <p class="text-[10px]">
+                  2. **Biaya Tetap** (Fixed Cost) default diambil dari total Biaya Overhead Pabrik (BOP) bulanan Anda. Anda dapat mengubah nilainya secara manual.
+                </p>
+                <p class="text-[10px]">
+                  3. **Simulasikan Target Laba** untuk mengetahui berapa porsi/unit yang harus terjual demi mengamankan laba bersih impian Anda.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- TAB: BACKUP -->
       <div id="tab-content-backup" class="hidden space-y-6 animate-fade-in">
         <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm max-w-2xl mx-auto space-y-6">
@@ -958,6 +1158,30 @@
             </div>
           </div>
         </div>
+
+        <!-- Keamanan Akun Card -->
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm max-w-2xl mx-auto space-y-4 mt-6">
+          <div>
+            <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4.5 h-4.5 text-emerald-600"></i>
+              Keamanan Akun & Pemulihan
+            </h2>
+            <p class="text-[11px] text-slate-500">Konfigurasikan pertanyaan keamanan Anda untuk memudahkan pemulihan password jika Anda lupa.</p>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+            <div class="space-y-1">
+              <p class="text-xs font-bold text-slate-700">Status Keamanan</p>
+              <p id="bep-security-status" class="text-[10px] font-semibold text-amber-600 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Belum dikonfigurasi
+              </p>
+            </div>
+            <button onclick="openSecuritySetupModal()" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] rounded-lg transition cursor-pointer flex items-center gap-1 shadow-sm">
+              <i data-lucide="key-round" class="w-3.5 h-3.5"></i>
+              Atur / Ubah Pertanyaan
+            </button>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -971,6 +1195,47 @@
   </div>
 
   <!-- ==================== MODALS / DIALOGS ==================== -->
+
+  <!-- SECURITY SETUP MODAL -->
+  <div id="security-setup-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full max-w-md shadow-2xl space-y-4 animate-fade-in">
+      <div class="flex justify-between items-center">
+        <h3 class="text-md font-bold text-slate-800 flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-5 h-5 text-indigo-600"></i>
+          Konfigurasi Pertanyaan Keamanan
+        </h3>
+        <button onclick="closeSecuritySetupModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">
+        Pertanyaan keamanan digunakan untuk memulihkan password jika Anda lupa di masa mendatang. Pastikan Anda mengingat jawabannya dengan baik.
+      </p>
+      <form id="security-setup-form" onsubmit="saveSecuritySetup(event)" class="space-y-4 text-xs">
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Pilih Pertanyaan Keamanan</label>
+          <select id="sec-setup-question" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold focus:outline-none">
+            <option value="pet">Siapa nama hewan peliharaan pertama Anda?</option>
+            <option value="school">Apa nama sekolah dasar (SD) Anda?</option>
+            <option value="city">Di kota mana Anda dilahirkan?</option>
+            <option value="mother">Siapa nama gadis ibu kandung Anda?</option>
+            <option value="pin">PIN Pemulihan Rahasia (6 Angka)</option>
+          </select>
+        </div>
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Jawaban Keamanan / PIN</label>
+          <input type="text" id="sec-setup-answer" required placeholder="Masukkan jawaban rahasia Anda" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold focus:outline-none">
+        </div>
+        <div id="sec-setup-error" class="hidden text-[11px] text-rose-500 font-semibold bg-rose-50 border border-rose-100 p-3 rounded-lg">
+          Error message
+        </div>
+        <div id="sec-setup-success" class="hidden text-[11px] text-emerald-600 font-semibold bg-emerald-50 border border-emerald-100 p-3 rounded-lg">
+          Pertanyaan keamanan berhasil diperbarui!
+        </div>
+        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+          <i data-lucide="save" class="w-4 h-4"></i>Simpan Pengaturan
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- MATERIAL MODAL -->
   <div id="material-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -1400,6 +1665,8 @@
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('app-screen').classList.remove('hidden');
         document.getElementById('profile-username').innerText = state.user ? state.user.username : 'User';
+        updateSecurityStatusUI();
+        checkUserProfile();
         loadDataFromCloud();
       } else {
         document.getElementById('auth-screen').classList.remove('hidden');
@@ -1482,6 +1749,16 @@
       const loginBtn = document.getElementById('tab-login');
       const registerBtn = document.getElementById('tab-register');
       const submitBtn = document.getElementById('auth-submit-btn');
+      
+      const questionContainer = document.getElementById('auth-security-question-container');
+      const answerContainer = document.getElementById('auth-security-answer-container');
+      const forgotLinkContainer = document.getElementById('auth-forgot-link-container');
+      const passwordLabel = document.querySelector('label[for="password"]');
+      const passwordInput = document.getElementById('password');
+      const answerInput = document.getElementById('security-answer');
+
+      // Reset errors
+      document.getElementById('auth-error').classList.add('hidden');
 
       if (tab === 'login') {
         loginBtn.classList.add('bg-indigo-600', 'text-white');
@@ -1489,12 +1766,58 @@
         registerBtn.classList.remove('bg-indigo-600', 'text-white');
         registerBtn.classList.add('text-slate-400');
         submitBtn.innerHTML = '<span>Masuk ke Dashboard</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
-      } else {
+        
+        if (questionContainer) questionContainer.classList.add('hidden');
+        if (answerContainer) answerContainer.classList.add('hidden');
+        if (forgotLinkContainer) forgotLinkContainer.classList.remove('hidden');
+        if (passwordLabel) passwordLabel.innerText = 'Password';
+        if (passwordInput) {
+          passwordInput.placeholder = 'Masukkan password';
+          passwordInput.required = true;
+          passwordInput.minLength = 5;
+        }
+        if (answerInput) {
+          answerInput.required = false;
+        }
+      } else if (tab === 'register') {
         registerBtn.classList.add('bg-indigo-600', 'text-white');
         registerBtn.classList.remove('text-slate-400');
         loginBtn.classList.remove('bg-indigo-600', 'text-white');
         loginBtn.classList.add('text-slate-400');
         submitBtn.innerHTML = '<span>Daftar Akun Baru</span><i data-lucide="user-plus" class="w-4 h-4"></i>';
+        
+        if (questionContainer) questionContainer.classList.remove('hidden');
+        if (answerContainer) answerContainer.classList.remove('hidden');
+        if (forgotLinkContainer) forgotLinkContainer.classList.add('hidden');
+        if (passwordLabel) passwordLabel.innerText = 'Password';
+        if (passwordInput) {
+          passwordInput.placeholder = 'Masukkan password';
+          passwordInput.required = true;
+          passwordInput.minLength = 5;
+        }
+        if (answerInput) {
+          answerInput.required = true;
+        }
+      } else if (tab === 'forgot') {
+        // Remove active state from both tabs
+        loginBtn.classList.remove('bg-indigo-600', 'text-white');
+        loginBtn.classList.add('text-slate-400');
+        registerBtn.classList.remove('bg-indigo-600', 'text-white');
+        registerBtn.classList.add('text-slate-400');
+        submitBtn.innerHTML = '<span>Reset Password & Masuk</span><i data-lucide="key-round" class="w-4 h-4"></i>';
+        
+        if (questionContainer) questionContainer.classList.remove('hidden');
+        if (answerContainer) answerContainer.classList.remove('hidden');
+        if (forgotLinkContainer) forgotLinkContainer.classList.add('hidden');
+        if (passwordLabel) passwordLabel.innerText = 'Password Baru';
+        if (passwordInput) {
+          passwordInput.placeholder = 'Masukkan password baru Anda';
+          passwordInput.required = true;
+          passwordInput.minLength = 5;
+        }
+        if (answerInput) {
+          answerInput.required = true;
+        }
       }
       lucide.createIcons();
     }
@@ -1509,14 +1832,26 @@
 
       errorDiv.classList.add('hidden');
 
-      const endpoint = currentAuthTab === 'login' ? 'auth/login' : 'auth/register';
+      const bodyData = { username: usernameInput, password: passwordInput };
+      if (currentAuthTab === 'register' || currentAuthTab === 'forgot') {
+        bodyData.securityQuestion = document.getElementById('security-question').value;
+        bodyData.securityAnswer = document.getElementById('security-answer').value.trim();
+      }
+
+      let endpoint = 'auth/login';
+      if (currentAuthTab === 'register') {
+        endpoint = 'auth/register';
+      } else if (currentAuthTab === 'forgot') {
+        endpoint = 'auth/forgot-password';
+      }
+      
       const url = getApiUrl(endpoint);
 
       try {
         const response = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: usernameInput, password: passwordInput })
+          body: JSON.stringify(bodyData)
         });
 
         const responseText = await response.text();
@@ -1562,7 +1897,7 @@
       state.activeTab = tab;
       
       // Toggle nav buttons
-      const tabs = ['dashboard', 'materials', 'labor', 'overhead', 'products', 'backup'];
+      const tabs = ['dashboard', 'materials', 'labor', 'overhead', 'products', 'backup', 'bep'];
       tabs.forEach(t => {
         const btn = document.getElementById(`nav-${t}`);
         const content = document.getElementById(`tab-content-${t}`);
@@ -1588,6 +1923,8 @@
         renderOverhead();
       } else if (tab === 'products') {
         renderProducts();
+      } else if (tab === 'bep') {
+        renderBep();
       }
     }
 
@@ -2739,6 +3076,284 @@
         saveDataToCloud();
         alert('Database telah dibersihkan!');
         switchTab('dashboard');
+      }
+    }
+
+    // ==================== BEP CALCULATIONS & RENDER ====================
+    function renderBep() {
+      const select = document.getElementById('bep-product-select');
+      if (!select) return;
+      
+      const currentVal = select.value;
+      
+      let html = '<option value="">-- Input Bebas (Kustom) --</option>';
+      state.products.forEach(p => {
+        html += `<option value="${p.id}">${p.name}</option>`;
+      });
+      select.innerHTML = html;
+      
+      if (currentVal && state.products.some(p => p.id === currentVal)) {
+        select.value = currentVal;
+      } else {
+        select.value = '';
+        onBepProductSelectChange('');
+      }
+      
+      const totalFixed = state.overheads.reduce((sum, o) => sum + o.cost, 0);
+      document.getElementById('bep-fixed-cost').value = totalFixed;
+      
+      calculateBepResult();
+      lucide.createIcons();
+    }
+
+    function onBepProductSelectChange(productId) {
+      const breakdownEl = document.getElementById('bep-variable-breakdown');
+      const variableCostInput = document.getElementById('bep-variable-cost');
+      const sellingPriceInput = document.getElementById('bep-selling-price');
+      
+      if (!productId) {
+        if (breakdownEl) breakdownEl.classList.add('hidden');
+        calculateBepResult();
+        return;
+      }
+      
+      const prod = state.products.find(p => p.id === productId);
+      if (!prod) return;
+      
+      const hppInfo = calculateProductHpp(prod, state.materials, state.labors, state.overheads, state.monthlyVolume);
+      const varCostPerUnit = prod.batchSize > 0 ? (hppInfo.totalMaterialCost + hppInfo.totalLaborCost) / prod.batchSize : 0;
+      
+      variableCostInput.value = Math.round(varCostPerUnit);
+      sellingPriceInput.value = prod.sellingPrice || 0;
+      
+      if (breakdownEl) {
+        breakdownEl.classList.remove('hidden');
+        breakdownEl.innerHTML = `
+          <p class="font-bold text-slate-600 mb-1">Rincian Biaya Variabel per Unit (HPP Resep):</p>
+          <div class="flex justify-between"><span>• Bahan Baku:</span><span>${formatRupiah(hppInfo.totalMaterialCost / prod.batchSize)} / unit</span></div>
+          <div class="flex justify-between"><span>• Tenaga Kerja:</span><span>${formatRupiah(hppInfo.totalLaborCost / prod.batchSize)} / unit</span></div>
+        `;
+      }
+      
+      calculateBepResult();
+    }
+
+    function calculateBepResult() {
+      const sellingPrice = parseFloat(document.getElementById('bep-selling-price').value) || 0;
+      const variableCost = parseFloat(document.getElementById('bep-variable-cost').value) || 0;
+      const fixedCost = parseFloat(document.getElementById('bep-fixed-cost').value) || 0;
+      const targetProfit = parseFloat(document.getElementById('bep-target-profit').value) || 0;
+      
+      const marginKontribusi = sellingPrice - variableCost;
+      
+      let bepUnits = 0;
+      let bepRupiah = 0;
+      let targetUnitsNeeded = 0;
+      let targetRevenueNeeded = 0;
+      
+      if (marginKontribusi > 0) {
+        bepUnits = Math.ceil(fixedCost / marginKontribusi);
+        bepRupiah = Math.ceil(bepUnits * sellingPrice);
+        
+        targetUnitsNeeded = Math.ceil((fixedCost + targetProfit) / marginKontribusi);
+        targetRevenueNeeded = Math.ceil(targetUnitsNeeded * sellingPrice);
+      } else {
+        bepUnits = Infinity;
+        bepRupiah = Infinity;
+        targetUnitsNeeded = Infinity;
+        targetRevenueNeeded = Infinity;
+      }
+      
+      const unitsEl = document.getElementById('bep-result-units');
+      const rupiahEl = document.getElementById('bep-result-rupiah');
+      const targetUnitsEl = document.getElementById('bep-target-units-needed');
+      const targetRevEl = document.getElementById('bep-target-revenue-needed');
+      
+      if (isFinite(bepUnits)) {
+        unitsEl.innerText = `${bepUnits.toLocaleString('id-ID')} unit`;
+        rupiahEl.innerText = formatRupiah(bepRupiah);
+        targetUnitsEl.innerText = `${targetUnitsNeeded.toLocaleString('id-ID')} unit`;
+        targetRevEl.innerText = formatRupiah(targetRevenueNeeded);
+      } else {
+        unitsEl.innerText = 'Tidak Terbatas';
+        rupiahEl.innerText = 'N/A (Harga Jual ≤ Biaya)';
+        targetUnitsEl.innerText = 'Tidak Terbatas';
+        targetRevEl.innerText = 'N/A';
+      }
+      
+      const recTextEl = document.getElementById('bep-recommendation-text');
+      const progressBar = document.getElementById('bep-progress-bar');
+      const progressValText = document.getElementById('bep-bar-status-text');
+      const barBepVal = document.getElementById('bep-bar-bep-val');
+      const barVolVal = document.getElementById('bep-bar-vol-val');
+      
+      if (barBepVal) barBepVal.innerText = isFinite(bepUnits) ? `${bepUnits} unit` : 'N/A';
+      if (barVolVal) barVolVal.innerText = `${state.monthlyVolume} unit`;
+      
+      if (marginKontribusi <= 0) {
+        if (recTextEl) recTextEl.innerText = '🚨 Peringatan Kritis! Harga Jual Anda lebih rendah atau sama dengan Biaya Variabel per unit. Berapapun yang Anda jual, Anda tidak akan pernah mencapai titik impas dan kerugian akan terus membesar!';
+        if (progressBar) progressBar.style.width = '0%';
+        if (progressValText) progressValText.innerText = 'Kapasitas produksi tidak relevan karena harga jual tidak menutup biaya variabel.';
+        return;
+      }
+      
+      const volRatio = bepUnits > 0 ? (state.monthlyVolume / bepUnits) * 100 : 0;
+      if (progressBar) progressBar.style.width = `${Math.min(100, volRatio)}%`;
+      
+      if (volRatio >= 100) {
+        if (progressBar) {
+          progressBar.className = 'h-full bg-emerald-500 rounded-full transition-all duration-500';
+        }
+        if (progressValText) {
+          progressValText.innerHTML = `Kapasitas Anda berada pada <b class="text-emerald-500">${volRatio.toFixed(0)}%</b> dari titik impas. Ini adalah posisi yang <b class="text-emerald-500">Sangat Aman!</b>`;
+        }
+        if (recTextEl) {
+          recTextEl.innerHTML = `✨ <b>Bisnis Layak & Menguntungkan:</b> Kapasitas produksi bulanan Anda (${state.monthlyVolume.toLocaleString('id-ID')} unit) telah melampaui Titik Impas (${bepUnits.toLocaleString('id-ID')} unit). Penjualan di atas ${bepUnits.toLocaleString('id-ID')} unit akan langsung menyumbang keuntungan bersih bagi usaha kuliner Anda.`;
+        }
+      } else {
+        if (progressBar) {
+          progressBar.className = 'h-full bg-amber-500 rounded-full transition-all duration-500';
+        }
+        if (progressValText) {
+          progressValText.innerHTML = `Kapasitas Anda baru mencapai <b class="text-amber-500">${volRatio.toFixed(0)}%</b> dari titik impas. Anda butuh tambahan <b class="text-amber-500">${(bepUnits - state.monthlyVolume).toLocaleString('id-ID')} unit</b> lagi.`;
+        }
+        if (recTextEl) {
+          recTextEl.innerHTML = `⚠️ <b>Rekomendasi Optimalisasi:</b> Kapasitas bulanan Anda (${state.monthlyVolume.toLocaleString('id-ID')} unit) saat ini belum cukup untuk menutup Biaya Tetap bulanan Anda. Anda berisiko rugi Rp ${( (bepUnits - state.monthlyVolume) * marginKontribusi ).toLocaleString('id-ID')} per bulan. Cobalah untuk <b>menaikkan harga jual</b>, <b>menurunkan biaya bahan baku</b>, atau <b>meningkatkan kapasitas produksi bulanan</b> Anda!`;
+        }
+      }
+    }
+    
+    function bepLoadCurrentOverhead() {
+      const totalFixed = state.overheads.reduce((sum, o) => sum + o.cost, 0);
+      document.getElementById('bep-fixed-cost').value = totalFixed;
+      calculateBepResult();
+    }
+
+    // ==================== SECURITY SETUP FUNCTIONS ====================
+    function openSecuritySetupModal() {
+      const modal = document.getElementById('security-setup-modal');
+      const errDiv = document.getElementById('sec-setup-error');
+      const succDiv = document.getElementById('sec-setup-success');
+      const ansInput = document.getElementById('sec-setup-answer');
+      
+      if (errDiv) errDiv.classList.add('hidden');
+      if (succDiv) succDiv.classList.add('hidden');
+      if (ansInput) ansInput.value = '';
+
+      if (modal) {
+        modal.classList.remove('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function closeSecuritySetupModal() {
+      const modal = document.getElementById('security-setup-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    async function saveSecuritySetup(e) {
+      e.preventDefault();
+      const errDiv = document.getElementById('sec-setup-error');
+      const succDiv = document.getElementById('sec-setup-success');
+      const question = document.getElementById('sec-setup-question').value;
+      const answer = document.getElementById('sec-setup-answer').value.trim();
+
+      if (errDiv) errDiv.classList.add('hidden');
+      if (succDiv) succDiv.classList.add('hidden');
+
+      const url = getApiUrl('auth/setup-security');
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`,
+            'X-Authorization': `Bearer ${state.token}`,
+            'X-Auth-Token': state.token
+          },
+          body: JSON.stringify({ securityQuestion: question, securityAnswer: answer })
+        });
+
+        const responseText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonErr) {
+          throw new Error("Gagal menyimpan data keamanan.");
+        }
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Gagal menyimpan pertanyaan keamanan.');
+        }
+
+        if (succDiv) {
+          succDiv.innerText = data.message || "Pertanyaan keamanan berhasil diperbarui!";
+          succDiv.classList.remove('hidden');
+        }
+
+        // Update state
+        if (state.user) {
+          state.user.hasSecurityQuestion = true;
+          localStorage.setItem('hpp_user', JSON.stringify(state.user));
+        }
+        
+        // Update UI status instantly
+        updateSecurityStatusUI();
+
+        setTimeout(() => {
+          closeSecuritySetupModal();
+        }, 1500);
+
+      } catch (err) {
+        if (errDiv) {
+          errDiv.innerText = err.message;
+          errDiv.classList.remove('hidden');
+        }
+      }
+    }
+
+    async function checkUserProfile() {
+      if (!state.token) return;
+      try {
+        const url = getApiUrl('auth/me');
+        const response = await fetch(url, {
+          headers: { 
+            'Authorization': `Bearer ${state.token}`,
+            'X-Authorization': `Bearer ${state.token}`,
+            'X-Auth-Token': state.token
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.user) {
+            state.user = data.user;
+            localStorage.setItem('hpp_user', JSON.stringify(data.user));
+            updateSecurityStatusUI();
+          }
+        }
+      } catch (err) {
+        console.error("Gagal memuat profil pengguna:", err);
+      }
+    }
+
+    function updateSecurityStatusUI() {
+      const warningAlert = document.getElementById('security-warning-alert');
+      const statusText = document.getElementById('bep-security-status');
+      
+      if (state.user && state.user.hasSecurityQuestion) {
+        if (warningAlert) warningAlert.classList.add('hidden');
+        if (statusText) {
+          statusText.className = 'text-[10px] font-semibold text-emerald-600 flex items-center gap-1';
+          statusText.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Sangat Aman (Dikonfigurasi)';
+        }
+      } else {
+        if (warningAlert) warningAlert.classList.remove('hidden');
+        if (statusText) {
+          statusText.className = 'text-[10px] font-semibold text-amber-600 flex items-center gap-1';
+          statusText.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> Belum dikonfigurasi';
+        }
       }
     }
 

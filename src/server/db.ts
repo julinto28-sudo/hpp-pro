@@ -13,6 +13,8 @@ export interface User {
   passwordHash: string;
   salt: string;
   createdAt: string;
+  securityQuestion?: string;
+  securityAnswerHash?: string;
 }
 
 export interface UserData {
@@ -161,7 +163,7 @@ export const dbOps = {
     return db.users.find(u => u.username.toLowerCase() === normalized);
   },
 
-  createUser(username: string, passwordPlain: string): User {
+  createUser(username: string, passwordPlain: string, securityQuestion?: string, securityAnswerPlain?: string): User {
     const db = loadDb();
     const salt = generateSalt();
     const passwordHash = hashPassword(passwordPlain, salt);
@@ -175,12 +177,58 @@ export const dbOps = {
       createdAt: new Date().toISOString()
     };
 
+    if (securityQuestion && securityAnswerPlain) {
+      newUser.securityQuestion = securityQuestion;
+      newUser.securityAnswerHash = hashPassword(securityAnswerPlain.toLowerCase().trim(), salt);
+    }
+
     db.users.push(newUser);
     // Seed new user with default demo data so they have a starting template!
     db.userData[id] = JSON.parse(JSON.stringify(emptyUserData));
     
     saveDb(db);
     return newUser;
+  },
+
+  resetPassword(username: string, securityQuestion: string, securityAnswerPlain: string, newPasswordPlain: string): User {
+    const db = loadDb();
+    const normalized = username.toLowerCase().trim();
+    const user = db.users.find(u => u.username.toLowerCase() === normalized);
+    if (!user) {
+      throw new Error("Username tidak ditemukan.");
+    }
+
+    if (!user.securityQuestion || !user.securityAnswerHash) {
+      throw new Error("Akun ini belum mengonfigurasi pertanyaan keamanan. Silakan hubungi admin.");
+    }
+
+    if (user.securityQuestion !== securityQuestion) {
+      throw new Error("Pertanyaan keamanan tidak cocok dengan yang didaftarkan.");
+    }
+
+    const answerHash = hashPassword(securityAnswerPlain.toLowerCase().trim(), user.salt);
+    if (answerHash !== user.securityAnswerHash) {
+      throw new Error("Jawaban keamanan salah.");
+    }
+
+    // Reset password hash
+    user.passwordHash = hashPassword(newPasswordPlain, user.salt);
+    saveDb(db);
+    return user;
+  },
+
+  updateUserSecurity(username: string, securityQuestion: string, securityAnswerPlain: string): User {
+    const db = loadDb();
+    const normalized = username.toLowerCase().trim();
+    const user = db.users.find(u => u.username.toLowerCase() === normalized);
+    if (!user) {
+      throw new Error("Username tidak ditemukan.");
+    }
+
+    user.securityQuestion = securityQuestion;
+    user.securityAnswerHash = hashPassword(securityAnswerPlain.toLowerCase().trim(), user.salt);
+    saveDb(db);
+    return user;
   },
 
   getUserData(userId: string): UserData {

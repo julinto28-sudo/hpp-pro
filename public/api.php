@@ -129,6 +129,8 @@ switch ($route) {
         $input = json_decode(file_get_contents('php://input'), true);
         $username = isset($input['username']) ? trim($input['username']) : '';
         $password = isset($input['password']) ? $input['password'] : '';
+        $securityQuestion = isset($input['securityQuestion']) ? $input['securityQuestion'] : '';
+        $securityAnswer = isset($input['securityAnswer']) ? trim($input['securityAnswer']) : '';
         
         if (empty($username) || empty($password)) {
             http_response_code(400);
@@ -147,6 +149,12 @@ switch ($route) {
             echo json_encode(["message" => "Password minimal 5 karakter."]);
             exit();
         }
+
+        if (empty($securityQuestion) || empty($securityAnswer)) {
+            http_response_code(400);
+            echo json_encode(["message" => "Pertanyaan dan jawaban keamanan wajib diisi untuk pemulihan akun."]);
+            exit();
+        }
         
         $db = loadDb();
         
@@ -162,6 +170,7 @@ switch ($route) {
         // Generate password hash and secure salt
         $salt = bin2hex(generateSecureBytes(16));
         $passwordHash = hash('sha256', $password . $salt);
+        $securityAnswerHash = hash('sha256', strtolower($securityAnswer) . $salt);
         $userId = 'user_' . bin2hex(generateSecureBytes(8));
         
         $newUser = [
@@ -169,6 +178,8 @@ switch ($route) {
             "username" => $username,
             "passwordHash" => $passwordHash,
             "salt" => $salt,
+            "securityQuestion" => $securityQuestion,
+            "securityAnswerHash" => $securityAnswerHash,
             "createdAt" => date('c')
         ];
         
@@ -315,6 +326,92 @@ switch ($route) {
             ]
         ]);
         break;
+
+    case 'auth/forgot-password':
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(["message" => "Metode tidak diizinkan."]);
+            exit();
+        }
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $username = isset($input['username']) ? trim($input['username']) : '';
+        $password = isset($input['password']) ? $input['password'] : '';
+        $securityQuestion = isset($input['securityQuestion']) ? $input['securityQuestion'] : '';
+        $securityAnswer = isset($input['securityAnswer']) ? trim($input['securityAnswer']) : '';
+        
+        if (empty($username) || empty($password) || empty($securityQuestion) || empty($securityAnswer)) {
+            http_response_code(400);
+            echo json_encode(["message" => "Semua field wajib diisi."]);
+            exit();
+        }
+        
+        if (strlen($password) < 5) {
+            http_response_code(400);
+            echo json_encode(["message" => "Password baru minimal 5 karakter."]);
+            exit();
+        }
+        
+        $db = loadDb();
+        $matchedUserIndex = -1;
+        
+        for ($i = 0; $i < count($db['users']); $i++) {
+            if (strtolower($db['users'][$i]['username']) === strtolower($username)) {
+                $matchedUserIndex = $i;
+                break;
+            }
+        }
+        
+        if ($matchedUserIndex === -1) {
+            http_response_code(400);
+            echo json_encode(["message" => "Username tidak ditemukan."]);
+            exit();
+        }
+        
+        $user = $db['users'][$matchedUserIndex];
+        
+        if (empty($user['securityQuestion']) || empty($user['securityAnswerHash'])) {
+            http_response_code(400);
+            echo json_encode(["message" => "Akun ini belum mengonfigurasi pertanyaan keamanan. Silakan hubungi admin."]);
+            exit();
+        }
+        
+        if ($user['securityQuestion'] !== $securityQuestion) {
+            http_response_code(400);
+            echo json_encode(["message" => "Pertanyaan keamanan tidak cocok dengan yang didaftarkan."]);
+            exit();
+        }
+        
+        $answerHash = hash('sha256', strtolower($securityAnswer) . $user['salt']);
+        if ($answerHash !== $user['securityAnswerHash']) {
+            http_response_code(400);
+            echo json_encode(["message" => "Jawaban keamanan salah."]);
+            exit();
+        }
+        
+        // Reset password
+        $newPasswordHash = hash('sha256', $password . $user['salt']);
+        $db['users'][$matchedUserIndex]['passwordHash'] = $newPasswordHash;
+        
+        // Generate Token
+        $token = bin2hex(generateSecureBytes(32));
+        $db['tokens'][$token] = [
+            "userId" => $user['id'],
+            "username" => $user['username'],
+            "expiresAt" => time() + (30 * 24 * 3600) // 30 Days
+        ];
+        
+        saveDb($db);
+        
+        echo json_encode([
+            "message" => "Password berhasil direset! Anda otomatis masuk.",
+            "token" => $token,
+            "user" => [
+                "id" => $user['id'],
+                "username" => $user['username']
+            ]
+        ]);
+        break;
         
     case 'auth/me':
         // Authenticate
@@ -322,9 +419,11 @@ switch ($route) {
         $db = loadDb();
         
         $username = '';
+        $hasSecurityQuestion = false;
         foreach ($db['users'] as $u) {
             if ($u['id'] === $userId) {
                 $username = $u['username'];
+                $hasSecurityQuestion = !empty($u['securityQuestion']);
                 break;
             }
         }
@@ -332,7 +431,60 @@ switch ($route) {
         echo json_encode([
             "user" => [
                 "id" => $userId,
-                "username" => $username
+                "username" => $username,
+                "hasSecurityQuestion" => $hasSecurityQuestion
+            ]
+        ]);
+        break;
+
+    case 'auth/setup-security':
+        // Authenticate
+        $userId = authenticateUser();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(["message" => "Metode tidak diizinkan."]);
+            exit();
+        }
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $securityQuestion = isset($input['securityQuestion']) ? $input['securityQuestion'] : '';
+        $securityAnswer = isset($input['securityAnswer']) ? trim($input['securityAnswer']) : '';
+        
+        if (empty($securityQuestion) || empty($securityAnswer)) {
+            http_response_code(400);
+            echo json_encode(["message" => "Pertanyaan dan jawaban keamanan wajib diisi."]);
+            exit();
+        }
+        
+        $db = loadDb();
+        $matchedUserIndex = -1;
+        for ($i = 0; $i < count($db['users']); $i++) {
+            if ($db['users'][$i]['id'] === $userId) {
+                $matchedUserIndex = $i;
+                break;
+            }
+        }
+        
+        if ($matchedUserIndex === -1) {
+            http_response_code(404);
+            echo json_encode(["message" => "User tidak ditemukan."]);
+            exit();
+        }
+        
+        $user = $db['users'][$matchedUserIndex];
+        $securityAnswerHash = hash('sha256', strtolower($securityAnswer) . $user['salt']);
+        
+        $db['users'][$matchedUserIndex]['securityQuestion'] = $securityQuestion;
+        $db['users'][$matchedUserIndex]['securityAnswerHash'] = $securityAnswerHash;
+        
+        saveDb($db);
+        
+        echo json_encode([
+            "message" => "Pertanyaan keamanan berhasil diperbarui!",
+            "user" => [
+                "id" => $userId,
+                "username" => $user['username'],
+                "hasSecurityQuestion" => true
             ]
         ]);
         break;

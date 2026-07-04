@@ -59,6 +59,11 @@
             "userId": "user_1025b54e1369deee",
             "username": "admin",
             "expiresAt": 1785777082
+        },
+        "75a851a9eda7f9b9a4524ec37f71b22da9b4964cfb08b37f0f09a474e8bee86e": {
+            "userId": "user_1025b54e1369deee",
+            "username": "admin",
+            "expiresAt": 1785783528
         }
     },
     "userData": {
@@ -106,14 +111,21 @@
                 }
             ],
             "labors": [],
-            "overheads": [],
+            "overheads": [
+                {
+                    "id": "o_1783187850736",
+                    "name": "sewa ruko",
+                    "cost": 2500000,
+                    "description": ""
+                }
+            ],
             "products": [
                 {
                     "id": "p_1783105101980",
                     "name": "Caramel Frappe",
                     "batchSize": 1,
-                    "sellingPrice": 22000,
-                    "targetMargin": 20,
+                    "sellingPrice": 32500,
+                    "targetMargin": 30,
                     "image": "beverage",
                     "materials": [
                         {
