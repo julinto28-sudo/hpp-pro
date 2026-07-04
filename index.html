@@ -1,0 +1,2683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HPP Master - Kalkulator HPP & Profit Profesional</title>
+  
+  <!-- CSS Framework & Fonts via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- AUTH SCREEN (Shown if token is null - contains Landing Page & Auth Modal) -->
+  <div id="auth-screen" class="hidden min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased overflow-x-hidden w-full">
+    
+    <!-- 1. Header Navigation -->
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+        <div class="flex items-center gap-2.5">
+          <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-600/10">
+            <i data-lucide="scale" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-base font-extrabold text-slate-900 tracking-tight">HPP Master <span class="text-indigo-600">Pro</span></span>
+            <span class="block text-[9px] text-slate-400 font-bold uppercase tracking-wider">SaaS Solution for UMKM</span>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center gap-6">
+          <a href="#fitur" class="text-xs font-semibold text-slate-600 hover:text-indigo-600 transition">Fitur Utama</a>
+          <a href="#demo" class="text-xs font-semibold text-slate-600 hover:text-indigo-600 transition">Demo Interaktif</a>
+          <a href="#pricing" class="text-xs font-semibold text-slate-600 hover:text-indigo-600 transition">Paket Harga</a>
+          <a href="#faq" class="text-xs font-semibold text-slate-600 hover:text-indigo-600 transition">FAQ</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-600 hover:text-indigo-600 px-3 py-2 transition cursor-pointer">Masuk</button>
+          <button onclick="openAuthModal('register')" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-md shadow-indigo-600/10 transition cursor-pointer">Daftar Gratis</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Hero Section -->
+    <section class="py-12 md:py-20 bg-gradient-to-b from-indigo-50/50 via-white to-white w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left Column: Copywriting -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 rounded-full px-3 py-1 text-[11px] font-semibold text-indigo-700 mx-auto lg:mx-0">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>SaaS Pendukung Finansial Bisnis Kuliner & Retail</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+            Kendalikan Profit Bisnis Kuliner Anda dalam <span class="text-indigo-600">Hitungan Detik</span>
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            Hentikan menebak harga jual atau salah hitung modal (HPP). HPP Master Pro memudahkan Anda mengonversi bahan baku kiloan ke gram, mendistribusikan biaya sewa/listrik/gas secara adil, dan merekomendasikan harga jual otomatis berbasis target margin keuntungan Anda secara presisi.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start pt-2">
+            <a href="#demo" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-indigo-600/20 transition cursor-pointer flex items-center justify-center gap-2">
+              <span>Uji Coba Demo Interaktif</span>
+              <i data-lucide="play" class="w-4 h-4"></i>
+            </a>
+            <button onclick="openAuthModal('register')" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold text-sm px-6 py-3.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-2">
+              <span>Daftar Akun Cloud</span>
+              <i data-lucide="user-plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 pt-4 text-xs text-slate-400">
+            <span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-500"></i> Tanpa Setup Database Rumit</span>
+            <span class="flex items-center gap-1"><i data-lucide="smartphone" class="w-4 h-4 text-emerald-500"></i> Ramah HP & Tablet</span>
+            <span class="flex items-center gap-1"><i data-lucide="server" class="w-4 h-4 text-emerald-500"></i> PHP & cPanel Ready</span>
+          </div>
+        </div>
+        
+        <!-- Right Column: Visual Preview / Feature Card -->
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
+          <div class="relative bg-slate-900 text-white rounded-3xl border border-slate-800 p-6 sm:p-8 shadow-2xl space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-mono">hpp-master-pro-v1.0</span>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="bg-indigo-950/40 border border-indigo-500/20 rounded-2xl p-4 space-y-2">
+                <div class="flex justify-between text-xs text-slate-400">
+                  <span>Produk Terpilih:</span>
+                  <span class="text-indigo-400 font-bold">Bakso Sapi Spesial</span>
+                </div>
+                <div class="flex justify-between items-end">
+                  <span class="text-xs text-slate-300">HPP / Unit:</span>
+                  <span class="text-lg font-mono font-bold text-white">Rp 12.450</span>
+                </div>
+              </div>
+              
+              <div class="space-y-1.5">
+                <div class="flex justify-between text-[11px] text-slate-400">
+                  <span>Target Margin Keuntungan:</span>
+                  <span class="text-indigo-400 font-bold">40%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                  <div class="bg-indigo-500 h-full w-[40%]"></div>
+                </div>
+              </div>
+              
+              <div class="bg-emerald-950/20 border border-emerald-500/20 rounded-2xl p-4 flex justify-between items-center">
+                <div class="space-y-1">
+                  <span class="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">Rekomendasi Harga Jual</span>
+                  <span class="block text-xl font-mono font-bold text-emerald-400">Rp 20.800</span>
+                </div>
+                <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/20">Profit +Rp 8.350</span>
+              </div>
+            </div>
+            
+            <div class="flex gap-2 justify-center pt-2">
+              <div class="text-center px-4 py-2 border border-slate-800 rounded-xl bg-slate-950/50">
+                <span class="block text-xs font-bold text-indigo-400">100%</span>
+                <span class="text-[9px] text-slate-500">Akurasi Rekomendasi</span>
+              </div>
+              <div class="text-center px-4 py-2 border border-slate-800 rounded-xl bg-slate-950/50">
+                <span class="block text-xs font-bold text-indigo-400">&lt; 3 Detik</span>
+                <span class="text-[9px] text-slate-500">Hitung Otomatis</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Interactive Demo Section -->
+    <section id="demo" class="py-16 bg-slate-50 border-y border-slate-100 w-full">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="text-center space-y-3">
+          <span class="text-xs text-indigo-600 font-bold uppercase tracking-widest block">Kalkulator Interaktif</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Coba Demo: Hitung HPP Resep Anda Secara Langsung</h2>
+          <p class="text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto">
+            Ubah kuantitas bahan resep atau target margin di bawah ini secara real-time untuk membuktikan sendiri betapa mudah dan instannya sistem HPP Master Pro bekerja!
+          </p>
+        </div>
+        
+        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-12">
+          <!-- Demo Left Panel: Recipe Ingredients -->
+          <div class="md:col-span-7 p-6 sm:p-8 space-y-6 border-b md:border-b-0 md:border-r border-slate-100">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+              <div>
+                <span class="text-[10px] text-indigo-600 font-bold uppercase block tracking-wider">Formula Resep (Demo)</span>
+                <input type="text" id="demo-product-name" value="Roti Manis Cokelat Premium (per 1 Unit)" oninput="updateLandingDemo()" class="text-base font-bold text-slate-800 bg-transparent border-b border-transparent hover:border-slate-200 focus:border-indigo-500 focus:outline-none w-full py-0.5">
+              </div>
+              <span class="bg-indigo-50 text-indigo-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-indigo-100 shrink-0">Batch: 1 Porsi</span>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-400 px-2">
+                <span>Bahan Baku Resep</span>
+                <span>Kebutuhan Pakai</span>
+              </div>
+              
+              <div id="demo-ingredients-list" class="space-y-3">
+                <!-- Tepung Terigu Row -->
+                <div class="flex items-center justify-between gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition">
+                  <div class="space-y-0.5">
+                    <span class="font-bold text-slate-700 text-xs sm:text-sm block">Tepung Terigu Premium</span>
+                    <span class="text-[10px] text-slate-400 block">Harga Beli: Rp 18.000 / 1 kg (Rp 18/gr)</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="number" id="demo-qty-0" value="250" oninput="updateLandingDemo()" class="w-20 bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 text-center font-bold text-xs sm:text-sm text-slate-800">
+                    <span class="text-xs text-slate-400 font-bold w-6 text-left">gr</span>
+                  </div>
+                </div>
+                
+                <!-- Mentega Wisman Row -->
+                <div class="flex items-center justify-between gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition">
+                  <div class="space-y-0.5">
+                    <span class="font-bold text-slate-700 text-xs sm:text-sm block">Mentega Butter Wisman</span>
+                    <span class="text-[10px] text-slate-400 block">Harga Beli: Rp 145.000 / 500 gr (Rp 290/gr)</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="number" id="demo-qty-1" value="50" oninput="updateLandingDemo()" class="w-20 bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 text-center font-bold text-xs sm:text-sm text-slate-800">
+                    <span class="text-xs text-slate-400 font-bold w-6 text-left">gr</span>
+                  </div>
+                </div>
+                
+                <!-- Cokelat Isian Row -->
+                <div class="flex items-center justify-between gap-4 p-3 bg-slate-50/50 hover:bg-slate-50 border border-slate-100 rounded-2xl transition">
+                  <div class="space-y-0.5">
+                    <span class="font-bold text-slate-700 text-xs sm:text-sm block">Cokelat Ceres Isian</span>
+                    <span class="text-[10px] text-slate-400 block">Harga Beli: Rp 45.000 / 1 kg (Rp 45/gr)</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <input type="number" id="demo-qty-2" value="80" oninput="updateLandingDemo()" class="w-20 bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 text-center font-bold text-xs sm:text-sm text-slate-800">
+                    <span class="text-xs text-slate-400 font-bold w-6 text-left">gr</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="bg-indigo-50/20 p-2.5 rounded-xl border border-indigo-100/30 space-y-1">
+                  <span class="text-[9px] text-slate-500 font-bold uppercase block">Porsi Overhead (Gas & Air)</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-slate-400 text-xs font-semibold">Rp</span>
+                    <input type="number" id="demo-overhead" value="1500" oninput="updateLandingDemo()" class="w-full bg-transparent border-none p-0 font-bold text-slate-800 text-xs focus:ring-0 focus:outline-none">
+                  </div>
+                </div>
+                <div class="bg-indigo-50/20 p-2.5 rounded-xl border border-indigo-100/30 space-y-1">
+                  <span class="text-[9px] text-slate-500 font-bold uppercase block">Alokasi Gaji Tenaga Kerja</span>
+                  <div class="flex items-center gap-1">
+                    <span class="text-slate-400 text-xs font-semibold">Rp</span>
+                    <input type="number" id="demo-labor" value="1000" oninput="updateLandingDemo()" class="w-full bg-transparent border-none p-0 font-bold text-slate-800 text-xs focus:ring-0 focus:outline-none">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Demo Right Panel: Calculation Dashboard -->
+          <div class="md:col-span-5 bg-slate-900 text-white p-6 sm:p-8 flex flex-col justify-between space-y-6">
+            <div class="space-y-4">
+              <span class="text-[10px] text-indigo-400 font-bold uppercase tracking-wider block">Kalkulasi Laba & Rekomendasi Jual</span>
+              
+              <div class="space-y-1.5 border-b border-slate-800 pb-4">
+                <span class="text-xs text-slate-400">Total Harga Pokok Produksi (HPP):</span>
+                <div class="flex justify-between items-baseline">
+                  <span id="demo-total-hpp" class="text-2xl font-mono font-bold text-white">Rp 25.100</span>
+                  <span class="text-[10px] text-slate-400">(Bahan + Overhead + Tenaga)</span>
+                </div>
+              </div>
+              
+              <!-- Margin Slider -->
+              <div class="space-y-3 py-2">
+                <div class="flex justify-between text-xs font-semibold">
+                  <span class="text-slate-300">Target Margin Laba:</span>
+                  <span id="lbl-demo-margin" class="text-indigo-400 font-bold">40%</span>
+                </div>
+                <input type="range" id="demo-margin" min="10" max="80" step="5" value="40" oninput="updateLandingDemo()" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500">
+                <p class="text-[9px] text-slate-500">Semakin besar target margin kotor, semakin tinggi harga jual yang disarankan.</p>
+              </div>
+              
+              <!-- Outputs -->
+              <div class="space-y-3">
+                <div class="bg-indigo-950/40 border border-indigo-500/20 p-4 rounded-2xl space-y-1 text-center">
+                  <span class="text-[10px] text-indigo-300 font-bold uppercase block tracking-wider">Rekomendasi Harga Jual Ideal</span>
+                  <span id="demo-suggested-price" class="text-2xl sm:text-3xl font-mono font-bold text-indigo-400 block">Rp 41.800</span>
+                  <span class="text-[9px] text-slate-500 italic">Disarankan pembulatan ke kelipatan Rp 500 terdekat</span>
+                </div>
+                
+                <div class="bg-emerald-950/20 border border-emerald-500/20 p-3.5 rounded-xl flex justify-between items-center text-xs">
+                  <span class="text-slate-300">Potensi Keuntungan bersih:</span>
+                  <span id="demo-profit" class="font-mono font-bold text-emerald-400">Rp 16.700 / unit</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="space-y-3">
+              <p class="text-[10px] text-slate-500 text-center leading-relaxed">
+                *Ingin menyimpan resep ini secara permanen, mengelola puluhan resep menu, dan mensinkronisasikan data aman ke cloud?
+              </p>
+              <button onclick="openAuthModal('register')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-1.5 cursor-pointer">
+                <i data-lucide="cloud-lightning" class="w-4 h-4"></i>
+                <span>Simpan Resep & Daftar Cloud</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Features Section -->
+    <section id="fitur" class="py-16 bg-white w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-3">
+          <span class="text-xs text-indigo-600 font-bold uppercase tracking-widest block">Fitur Unggulan</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Kelebihan HPP Master Pro untuk Sukses Bisnis Anda</h2>
+          <p class="text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto">
+            Setiap fitur didesain berdasarkan kebutuhan riil pegiat UMKM kuliner di Indonesia agar pembukuan Anda rapi & margin keuntungan terjaga mantap.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4 hover:shadow-lg transition">
+            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl w-fit">
+              <i data-lucide="arrow-left-right" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Konversi Satuan Otomatis</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Beli terigu kiloan di pasar, tapi masukkan resep dalam satuan gram. Sistem secara otomatis menghitung konversi satuan presisi tanpa coret-coretan kertas lagi.
+            </p>
+          </div>
+          
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4 hover:shadow-lg transition">
+            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl w-fit">
+              <i data-lucide="calculator" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Alokasi Overhead Presisi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Biaya bulanan seperti sewa ruko, kuota POS, penyusutan oven, dan gas LPG dibagi merata secara otomatis ke setiap porsi produksi sesuai volume bulanan Anda.
+            </p>
+          </div>
+          
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4 hover:shadow-lg transition">
+            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl w-fit">
+              <i data-lucide="percent" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Rekomendasi Jual Real-Time</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Ubah persentase margin laba kotor Anda (misal 35% atau 50%), sistem langsung memperbarui rekomendasi harga jual kotor & estimasi laba harian Anda.
+            </p>
+          </div>
+          
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4 hover:shadow-lg transition">
+            <div class="bg-indigo-100 text-indigo-600 p-3 rounded-xl w-fit">
+              <i data-lucide="cloud" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm sm:text-base">Sinkronisasi Cloud & Multi-Device</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Data tersimpan aman di cloud hosting pribadi Anda. Tambahkan resep dari laptop di malam hari, periksa resep dari HP Android/iOS Anda saat belanja di pasar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Pricing Section -->
+    <section id="pricing" class="py-16 bg-slate-50 border-t border-slate-100 w-full">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center space-y-3">
+          <span class="text-xs text-indigo-600 font-bold uppercase tracking-widest block">Paket Berlangganan</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Investasi Murah untuk Kontrol Keuangan Bisnis Kuliner Anda</h2>
+          <p class="text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto">
+            Pilih paket yang paling sesuai dengan skala usaha Anda. Semua paket dilengkapi jaminan kalkulasi 100% akurat.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <!-- Plan 1: Free Trial -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 flex flex-col justify-between relative hover:shadow-xl transition">
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <span class="bg-slate-100 text-slate-700 text-[9px] font-bold px-2.5 py-1 rounded-full border border-slate-200 uppercase tracking-wider">Demo Lokal</span>
+                <h3 class="text-lg font-bold text-slate-800">Paket Free Trial</h3>
+                <p class="text-xs text-slate-400">Cocok untuk mencoba kalkulator HPP resep di satu komputer secara lokal.</p>
+              </div>
+              
+              <div class="border-y border-slate-100 py-4">
+                <span class="text-2xl sm:text-3xl font-extrabold text-slate-800">Gratis</span>
+                <span class="text-xs text-slate-400">/ Selamanya</span>
+              </div>
+              
+              <ul class="space-y-2.5 text-xs text-slate-600">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-500 shrink-0"></i> Simpan data lokal (browser saja)</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-500 shrink-0"></i> Maksimal 2 Resep Produk</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-indigo-500 shrink-0"></i> Konversi Unit Standar (Kg ke Gr)</li>
+                <li class="flex items-center gap-2 text-slate-400 line-through"><i data-lucide="x" class="w-4 h-4 text-slate-300 shrink-0"></i> Sinkronisasi Cloud Otomatis</li>
+                <li class="flex items-center gap-2 text-slate-400 line-through"><i data-lucide="x" class="w-4 h-4 text-slate-300 shrink-0"></i> Multi-device (Akses HP & Laptop)</li>
+              </ul>
+            </div>
+            
+            <button onclick="openAuthModal('register')" class="w-full py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs transition cursor-pointer text-center">Daftar Akun Gratis</button>
+          </div>
+          
+          <!-- Plan 2: Pro License -->
+          <div class="bg-white rounded-3xl border-2 border-indigo-500 p-6 sm:p-8 space-y-6 flex flex-col justify-between relative shadow-xl hover:shadow-2xl transition">
+            <span class="absolute top-0 right-1/2 translate-y-[-50%] translate-x-[50%] bg-indigo-600 text-white text-[9px] font-extrabold px-3 py-1 rounded-full border border-indigo-500 uppercase tracking-widest">Pilihan Terbaik UMKM</span>
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <span class="bg-indigo-50 text-indigo-700 text-[9px] font-bold px-2.5 py-1 rounded-full border border-indigo-100 uppercase tracking-wider">Lisensi Cloud</span>
+                <h3 class="text-lg font-bold text-slate-800">Paket Pro Premium</h3>
+                <p class="text-xs text-slate-400">Sangat direkomendasikan untuk pemilik bisnis kuliner aktif, cafe, resto, dan katering.</p>
+              </div>
+              
+              <div class="border-y border-slate-100 py-4">
+                <span class="text-[10px] text-slate-400 line-through block font-bold">Rp 499.000</span>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-2xl sm:text-3xl font-extrabold text-slate-800">Rp 249.000</span>
+                  <span class="text-xs text-indigo-600 font-bold">/ Sekali Bayar</span>
+                </div>
+                <span class="text-[9px] text-emerald-500 font-bold block mt-0.5">Berlaku selamanya tanpa biaya bulanan!</span>
+              </div>
+              
+              <ul class="space-y-2.5 text-xs text-slate-600">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Unlimited Simpan Resep Produk</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Sinkronisasi Cloud Otomatis</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Multi-device (Bisa dibuka di HP & Laptop)</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Backup & Restore Data Instan</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Kalkulator Live Rekomendasi Jual</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-500 shrink-0"></i> Priority CS Support via WhatsApp</li>
+              </ul>
+            </div>
+            
+            <button onclick="openAuthModal('register')" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-indigo-600/25 cursor-pointer text-center">Beli Sekarang & Daftar</button>
+          </div>
+          
+          <!-- Plan 3: White Label / SaaS reseller -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 space-y-6 flex flex-col justify-between relative hover:shadow-xl transition">
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <span class="bg-purple-50 text-purple-700 text-[9px] font-bold px-2.5 py-1 rounded-full border border-purple-100 uppercase tracking-wider">White Label</span>
+                <h3 class="text-lg font-bold text-slate-800">Paket SaaS Reseller</h3>
+                <p class="text-xs text-slate-400">Untuk agensi software, dev, atau konsultan bisnis yang ingin menjual kembali dengan merk sendiri.</p>
+              </div>
+              
+              <div class="border-y border-slate-100 py-4">
+                <span class="text-2xl sm:text-3xl font-extrabold text-slate-800">Hubungi Kami</span>
+                <span class="text-xs text-slate-400">/ Penawaran Spesial</span>
+              </div>
+              
+              <ul class="space-y-2.5 text-xs text-slate-600">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-500 shrink-0"></i> Ganti Logo & Nama Aplikasi Anda</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-500 shrink-0"></i> Deployment Mandiri ke Domain cPanel</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-500 shrink-0"></i> Berlisensi Komersial Terbuka</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-500 shrink-0"></i> Script Modifikasi Bebas (Open Source)</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-purple-500 shrink-0"></i> Dokumentasi & Panduan Penuh</li>
+              </ul>
+            </div>
+            
+            <a href="https://wa.me/628123456789?text=Halo%20saya%20tertarik%20dengan%20Paket%20White%20Label%20HPP%20Master%20Pro" target="_blank" class="w-full py-2.5 rounded-xl border border-purple-200 text-purple-700 hover:bg-purple-50 font-bold text-xs transition cursor-pointer text-center flex items-center justify-center">Hubungi Developer</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FAQ Section -->
+    <section id="faq" class="py-16 bg-white w-full border-t border-slate-100">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="text-center space-y-3">
+          <span class="text-xs text-indigo-600 font-bold uppercase tracking-widest block">Pertanyaan Umum</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Menjawab Keraguan Anda (FAQ)</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-2">
+            <h4 class="font-bold text-slate-800 text-sm">Apakah data saya aman jika tidak memakai database MySQL/Firebase?</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Sangat aman! HPP Master Pro menyimpan data menggunakan format JSON terenkripsi PHP pada file khusus di server hosting cPanel Anda. Server cPanel diprogram untuk melarang akses publik ke file tersebut (memicu error 403 Forbidden), sehingga database Anda tidak bisa dibaca, diunduh, atau disusupi dari luar.
+            </p>
+          </div>
+          
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-2">
+            <h4 class="font-bold text-slate-800 text-sm">Bagaimana cara kerja konversi satuan di aplikasi ini?</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Sangat praktis! Saat memasukkan bahan baku, Anda dapat memilih satuan beli (misal: kg) dan satuan resep (misal: gram) serta mengisikan rasio konversi (1 kg = 1000 gr). Begitu Anda membuat resep, Anda tinggal memasukkan jumlah pemakaian dalam gram. Aplikasi akan langsung menghitung proporsi biaya secara otomatis.
+            </p>
+          </div>
+          
+          <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-2">
+            <h4 class="font-bold text-slate-800 text-sm">Dapatkah aplikasi ini di-deploy di hosting murah?</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Tentu saja! Aplikasi ini dirancang agar ringan tanpa perlu Node.js atau VPS di sisi server produksi. Anda bisa membeli shared hosting biasa senilai Rp15.000 - Rp25.000 per bulan, meng-upload file ZIP-nya, mengekstraknya di cPanel, dan aplikasi langsung siap melayani pelanggan Anda.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 w-full border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-white">
+            <i data-lucide="scale" class="w-5 h-5 text-indigo-400"></i>
+            <span class="font-extrabold text-sm tracking-tight">HPP Master Pro</span>
+          </div>
+          <p class="text-[11px] leading-relaxed">
+            Sistem terintegrasi kalkulator HPP & laba bersih kuliner Indonesia berbasis komputasi awan pribadi di cPanel Anda.
+          </p>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Tautan Navigasi</h4>
+          <ul class="space-y-1.5 text-[11px]">
+            <li><a href="#fitur" class="hover:text-white transition">Fitur Utama</a></li>
+            <li><a href="#demo" class="hover:text-white transition">Demo Interaktif</a></li>
+            <li><a href="#pricing" class="hover:text-white transition">Paket Harga</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">Legal & Keamanan</h4>
+          <ul class="space-y-1.5 text-[11px]">
+            <li><span class="flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5 text-indigo-400"></i> PHP 403 Protection</span></li>
+            <li><span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5 text-indigo-400"></i> .htaccess Apache Blocked</span></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-3">SaaS White Label</h4>
+          <p class="text-[11px] leading-relaxed mb-2">Tertarik menjual kembali program ini dengan brand Anda? Dapatkan lisensi White Label sekarang.</p>
+          <button onclick="openAuthModal('register')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] px-3 py-1.5 rounded-lg transition cursor-pointer">Mulai Reseller</button>
+        </div>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800 mt-8 pt-6 text-center text-[10px]">
+        <p>&copy; 2026 HPP Master Pro. Hak Cipta Dilindungi Undang-Undang. Dibuat khusus untuk pengusaha UMKM Kuliner Indonesia.</p>
+      </div>
+    </footer>
+
+    <!-- 8. AUTH MODAL (Popup overlay over landing page) -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden transition-all duration-300">
+      <div class="w-full max-w-md bg-slate-900 border border-slate-850 rounded-2xl p-8 shadow-2xl relative space-y-6">
+        <!-- Close button -->
+        <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-500 hover:text-white transition cursor-pointer p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        
+        <div class="text-center space-y-2">
+          <div class="inline-flex bg-indigo-500/10 text-indigo-400 p-3 rounded-2xl border border-indigo-500/20">
+            <i data-lucide="scale" class="w-8 h-8"></i>
+          </div>
+          <h1 class="text-2xl font-bold text-white tracking-tight">HPP Master Pro</h1>
+          <p class="text-xs text-slate-400">Analisis Harga Pokok Penjualan (HPP) & Optimasi Margin Keuntungan</p>
+        </div>
+
+        <!-- Auth Tabs -->
+        <div class="flex bg-slate-950 p-1 rounded-xl border border-slate-800">
+          <button id="tab-login" onclick="toggleAuthTab('login')" class="flex-1 py-2 text-xs font-semibold text-white rounded-lg bg-indigo-600 transition cursor-pointer">Masuk</button>
+          <button id="tab-register" onclick="toggleAuthTab('register')" class="flex-1 py-2 text-xs font-semibold text-slate-400 rounded-lg hover:text-white transition cursor-pointer">Daftar Baru</button>
+        </div>
+
+        <!-- Auth Form -->
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+          <div class="space-y-1.5">
+            <label for="username" class="text-xs font-semibold text-slate-300">Username</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i data-lucide="user" class="w-4 h-4"></i></span>
+              <input type="text" id="username" required minlength="3" placeholder="Masukkan username" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-600">
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label for="password" class="text-xs font-semibold text-slate-300">Password</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"><i data-lucide="lock" class="w-4 h-4"></i></span>
+              <input type="password" id="password" required minlength="5" placeholder="Masukkan password" class="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-600">
+            </div>
+          </div>
+
+          <div id="auth-error" class="hidden text-xs text-rose-500 font-semibold bg-rose-500/10 border border-rose-500/20 p-3 rounded-lg flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+            <span id="auth-error-msg">Terjadi kesalahan</span>
+          </div>
+
+          <button type="submit" id="auth-submit-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-sm transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 cursor-pointer">
+            <span>Masuk ke Dashboard</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <div class="text-center">
+          <p class="text-[10px] text-slate-500">Mendukung penyimpanan cloud hosting cPanel & database otomatis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP PLATFORM (Shown if token is present) -->
+  <div id="app-screen" class="hidden flex-1 flex flex-col">
+    <!-- Navbar -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-30 shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="bg-indigo-500 text-white p-2 rounded-xl">
+            <i data-lucide="scale" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h1 class="text-sm font-extrabold tracking-tight">HPP Master Pro</h1>
+            <p class="text-[10px] text-slate-400">Sistem Perhitungan HPP & Laba</p>
+          </div>
+        </div>
+
+        <!-- Sync Indicator & Profile -->
+        <div class="flex items-center gap-4">
+          <div id="sync-indicator" class="flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-full text-[10px] font-semibold text-slate-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="sync-text">Terhubung Cloud</span>
+          </div>
+
+          <div class="flex items-center gap-3 pl-3 border-l border-slate-800">
+            <div class="text-right hidden sm:block">
+              <p class="text-xs font-bold text-slate-200" id="profile-username">User</p>
+              <p class="text-[9px] text-indigo-400 font-semibold uppercase">Mitra UMKM</p>
+            </div>
+            <button onclick="handleLogout()" class="bg-slate-800 hover:bg-rose-950/40 text-slate-400 hover:text-rose-500 p-2 rounded-xl transition cursor-pointer" title="Keluar">
+              <i data-lucide="log-out" class="w-4.5 h-4.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs bar -->
+      <div class="bg-slate-950/80 border-t border-slate-800/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+          <nav class="flex gap-2 py-2 shrink-0">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap bg-indigo-600 text-white">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              <span>Dashboard</span>
+            </button>
+            <button onclick="switchTab('materials')" id="nav-materials" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="package" class="w-4 h-4"></i>
+              <span>Bahan Baku</span>
+            </button>
+            <button onclick="switchTab('labor')" id="nav-labor" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="users" class="w-4 h-4"></i>
+              <span>Tenaga Kerja</span>
+            </button>
+            <button onclick="switchTab('overhead')" id="nav-overhead" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="wallet" class="w-4 h-4"></i>
+              <span>Overhead (BOP)</span>
+            </button>
+            <button onclick="switchTab('products')" id="nav-products" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="chef-hat" class="w-4 h-4"></i>
+              <span>Hitung HPP</span>
+            </button>
+            <button onclick="switchTab('backup')" id="nav-backup" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition whitespace-nowrap text-slate-400 hover:text-white">
+              <i data-lucide="database" class="w-4 h-4"></i>
+              <span>Cadangan & Demo</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+      <!-- TAB: DASHBOARD -->
+      <div id="tab-content-dashboard" class="space-y-8 animate-fade-in">
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 rounded-2xl p-6 md:p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div>
+            <h2 class="text-xl md:text-2xl font-bold tracking-tight mb-2">Analisis Harga Pokok Penjualan (HPP)</h2>
+            <p class="text-slate-300 text-xs md:text-sm max-w-xl">
+              Selamat datang kembali! Kelola database biaya bahan baku, tarif tenaga kerja, dan overhead bulanan untuk menetapkan harga jual yang presisi dan menguntungkan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Volume Produksi Bulanan Global -->
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-start gap-4">
+            <div class="bg-indigo-50 text-indigo-600 p-3 rounded-xl">
+              <i data-lucide="scale" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                Kapasitas Produksi Bulanan
+                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full">Sangat Penting</span>
+              </h3>
+              <p class="text-xs text-slate-500 mt-1 max-w-md">
+                Jumlah total produk yang dihasilkan per bulan. Digunakan untuk mendistribusikan Biaya Overhead (BOP) bulanan secara adil dan otomatis ke setiap unit produk.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 w-full md:w-auto">
+            <div class="relative flex-1 md:flex-none">
+              <input type="number" id="global-monthly-volume" onchange="updateMonthlyVolume(this.value)" class="w-full md:w-44 pl-4 pr-12 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-800 font-bold" value="1000">
+              <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400 font-bold">unit</span>
+            </div>
+            <div class="text-[10px] text-slate-400 font-mono hidden md:block" id="allocated-overhead-text">
+              BOP Terporsi: Rp 0/unit
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Stats Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <!-- Stat 1 -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm flex items-center justify-between">
+            <div class="space-y-1.5">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Bahan Baku</p>
+              <h4 id="stat-materials-count" class="text-2xl font-black text-slate-800">0</h4>
+              <p class="text-xs text-slate-400">Bahan baku terdaftar</p>
+            </div>
+            <div class="bg-sky-50 text-sky-600 p-3.5 rounded-2xl"><i data-lucide="layers" class="w-5 h-5"></i></div>
+          </div>
+          <!-- Stat 2 -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm flex items-center justify-between">
+            <div class="space-y-1.5">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Overhead Bulanan (BOP)</p>
+              <h4 id="stat-overhead-total" class="text-2xl font-black text-slate-800">Rp 0</h4>
+              <p class="text-xs text-slate-400" id="stat-overhead-per-unit">Alokasi: Rp 0/unit</p>
+            </div>
+            <div class="bg-emerald-50 text-emerald-600 p-3.5 rounded-2xl"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
+          </div>
+          <!-- Stat 3 -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm flex items-center justify-between">
+            <div class="space-y-1.5">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Rata-rata Margin Kotor</p>
+              <h4 id="stat-avg-margin" class="text-2xl font-black text-slate-800">0%</h4>
+              <p class="text-xs" id="stat-margin-alert">Seluruh margin sehat</p>
+            </div>
+            <div class="bg-indigo-50 text-indigo-600 p-3.5 rounded-2xl"><i data-lucide="percent" class="w-5 h-5"></i></div>
+          </div>
+          <!-- Stat 4 -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm flex items-center justify-between">
+            <div class="space-y-1.5">
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Simulasi Profit Bulanan</p>
+              <h4 id="stat-projected-profit" class="text-2xl font-black text-slate-800">Rp 0</h4>
+              <p class="text-xs text-slate-400">Pada kapasitas bulanan</p>
+            </div>
+            <div class="bg-amber-50 text-amber-600 p-3.5 rounded-2xl"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+          </div>
+        </div>
+
+        <!-- Analytics Visualizations -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Cost Structure donut -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <h3 class="text-md font-bold text-slate-800">Struktur Komponen HPP</h3>
+              <p class="text-xs text-slate-500 mt-1">Kontribusi rata-rata pengeluaran HPP pada seluruh produk Anda.</p>
+            </div>
+            <div class="py-6 flex justify-center items-center">
+              <div class="w-48 h-48 relative">
+                <canvas id="cost-structure-chart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price & Margin analysis -->
+          <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm lg:col-span-2 flex flex-col justify-between">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 border-b border-slate-50 pb-3">
+              <div>
+                <h3 class="text-md font-bold text-slate-800">Analisis Margin & Perbandingan Harga</h3>
+                <p class="text-xs text-slate-500 mt-1">Perbandingan visual antara HPP per unit, Harga Jual, dan Target Margin.</p>
+              </div>
+            </div>
+            <div class="h-64">
+              <canvas id="margin-comparison-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Smart recommendations -->
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm space-y-6">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-100 pb-4">
+            <div>
+              <h3 class="text-md font-bold text-slate-800 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-indigo-600 animate-pulse"></i>
+                Kalkulator & Prediksi Harga Jual Ideal
+              </h3>
+              <p class="text-xs text-slate-500 mt-1">Saran taktis harga jual ideal untuk mengamankan margin keuntungan yang ditargetkan.</p>
+            </div>
+            <div class="flex bg-slate-100 p-1 rounded-xl">
+              <button onclick="setRecMode('individual')" id="btn-rec-indiv" class="px-3 py-1.5 text-xs font-bold rounded-lg cursor-pointer transition bg-slate-900 text-white">Target Produk</button>
+              <button onclick="setRecMode('global')" id="btn-rec-global" class="px-3 py-1.5 text-xs font-bold rounded-lg cursor-pointer transition text-slate-500 hover:text-slate-800">Margin Global</button>
+            </div>
+          </div>
+
+          <!-- Global slider panel if global active -->
+          <div id="global-slider-panel" class="hidden bg-slate-50 border border-slate-100 p-4 rounded-xl space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-slate-700">Simulasikan Target Margin Global</span>
+              <span id="global-margin-badge" class="bg-indigo-100 text-indigo-700 font-bold px-3 py-1 rounded-lg text-sm">40%</span>
+            </div>
+            <input type="range" id="global-margin-range" min="10" max="80" value="40" oninput="handleGlobalMarginChange(this.value)" class="w-full accent-indigo-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
+            <div class="flex gap-2 justify-start pt-1">
+              <button onclick="presetGlobalMargin(25)" class="bg-white border text-[10px] font-bold px-2.5 py-1 rounded-md cursor-pointer hover:bg-slate-100 transition">Volume Tinggi (25%)</button>
+              <button onclick="presetGlobalMargin(40)" class="bg-white border text-[10px] font-bold px-2.5 py-1 rounded-md cursor-pointer hover:bg-slate-100 transition">Sweet Spot (40%)</button>
+              <button onclick="presetGlobalMargin(55)" class="bg-white border text-[10px] font-bold px-2.5 py-1 rounded-md cursor-pointer hover:bg-slate-100 transition">Eksklusif (55%)</button>
+            </div>
+          </div>
+
+          <!-- Recommendations Grid -->
+          <div id="recommendations-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: MATERIALS -->
+      <div id="tab-content-materials" class="hidden space-y-6 animate-fade-in">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Database Bahan Baku</h2>
+            <p class="text-xs text-slate-500">Kelola rincian harga beli dan satuan bahan baku Anda.</p>
+          </div>
+          <button onclick="openMaterialModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/15">
+            <i data-lucide="plus" class="w-4 h-4"></i>Tambah Bahan Baru
+          </button>
+        </div>
+
+        <!-- Material Table Card -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <div class="p-4 border-b border-slate-50 flex items-center gap-2 bg-slate-50/50">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+            <input type="text" id="material-search" oninput="renderMaterials()" placeholder="Cari bahan baku..." class="bg-transparent border-0 text-sm focus:outline-none w-full max-w-xs text-slate-700">
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/80 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider border-b border-slate-100">
+                  <th class="px-6 py-4">Nama Bahan</th>
+                  <th class="px-6 py-4">Harga Beli</th>
+                  <th class="px-6 py-4">Ukuran Kemasan</th>
+                  <th class="px-6 py-4 text-right">Biaya / Satuan</th>
+                  <th class="px-6 py-4">Catatan</th>
+                  <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="materials-table-body" class="divide-y divide-slate-100 text-xs">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LABOR -->
+      <div id="tab-content-labor" class="hidden space-y-6 animate-fade-in">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Database Tenaga Kerja Langsung</h2>
+            <p class="text-xs text-slate-500">Kelola tarif upah pekerja harian atau borongan yang memproduksi barang.</p>
+          </div>
+          <button onclick="openLaborModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/15">
+            <i data-lucide="plus" class="w-4 h-4"></i>Tambah Tenaga Kerja
+          </button>
+        </div>
+
+        <!-- Labor Table Card -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/80 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider border-b border-slate-100">
+                  <th class="px-6 py-4">Nama Peran / Posisi</th>
+                  <th class="px-6 py-4">Tarif Upah</th>
+                  <th class="px-6 py-4">Jenis Upah</th>
+                  <th class="px-6 py-4">Deskripsi Kerja</th>
+                  <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="labor-table-body" class="divide-y divide-slate-100 text-xs">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: OVERHEAD -->
+      <div id="tab-content-overhead" class="hidden space-y-6 animate-fade-in">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Biaya Overhead Pabrik (BOP)</h2>
+            <p class="text-xs text-slate-500">Kelola pengeluaran operasional bulanan seperti sewa, listrik, air, dan kuota.</p>
+          </div>
+          <button onclick="openOverheadModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/15">
+            <i data-lucide="plus" class="w-4 h-4"></i>Tambah Overhead Bulanan
+          </button>
+        </div>
+
+        <!-- Overhead Table Card -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/80 text-[10px] font-extrabold uppercase text-slate-400 tracking-wider border-b border-slate-100">
+                  <th class="px-6 py-4">Kategori Biaya / BOP</th>
+                  <th class="px-6 py-4">Jumlah Biaya Bulanan</th>
+                  <th class="px-6 py-4">Keterangan</th>
+                  <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="overhead-table-body" class="divide-y divide-slate-100 text-xs">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: PRODUCTS -->
+      <div id="tab-content-products" class="hidden space-y-6 animate-fade-in">
+        <div class="flex justify-between items-center flex-wrap gap-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Kalkulasi HPP Produk & Resep</h2>
+            <p class="text-xs text-slate-500">Susun struktur biaya untuk menghitung HPP per unit secara akurat.</p>
+          </div>
+          <button onclick="openProductModal()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 transition cursor-pointer shadow-md shadow-indigo-600/15">
+            <i data-lucide="plus" class="w-4 h-4"></i>Mulai Racik Produk Baru
+          </button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="products-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- TAB: BACKUP -->
+      <div id="tab-content-backup" class="hidden space-y-6 animate-fade-in">
+        <div class="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm max-w-2xl mx-auto space-y-6">
+          <div>
+            <h2 class="text-lg font-bold text-slate-800">Manajemen Cadangan & Ekspor</h2>
+            <p class="text-xs text-slate-500">Amankan data perhitungan Anda dengan mencadangkan atau menggunakan data simulasi.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button onclick="exportDatabase()" class="flex items-center gap-3 p-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition cursor-pointer">
+              <div class="bg-sky-100 text-sky-600 p-2.5 rounded-lg"><i data-lucide="download" class="w-5 h-5"></i></div>
+              <div class="text-left">
+                <p class="text-xs font-bold text-slate-800">Ekspor File JSON</p>
+                <p class="text-[10px] text-slate-400">Unduh data Anda ke komputer</p>
+              </div>
+            </button>
+
+            <label class="flex items-center gap-3 p-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition cursor-pointer">
+              <div class="bg-indigo-100 text-indigo-600 p-2.5 rounded-lg"><i data-lucide="upload" class="w-5 h-5"></i></div>
+              <div class="text-left">
+                <p class="text-xs font-bold text-slate-800">Impor File JSON</p>
+                <p class="text-[10px] text-slate-400">Unggah cadangan yang ada</p>
+                <input type="file" onchange="importDatabase(event)" class="hidden" accept=".json">
+              </div>
+            </label>
+          </div>
+
+          <div class="border-t border-slate-100 pt-6 space-y-4">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Alat Khusus</h3>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button onclick="loadSeedData()" class="flex-1 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100/50 text-indigo-700 font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>Muat Data Demo Kuliner Indonesia
+              </button>
+              <button onclick="resetAllData()" class="flex-1 bg-rose-50 border border-rose-100 hover:bg-rose-100/50 text-rose-700 font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>Hapus Seluruh Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-6 text-center text-[10px] text-slate-400 mt-12">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <p>&copy; 2026 HPP Master Pro. Dibuat dengan cinta untuk memajukan UMKM Indonesia.</p>
+        <p class="flex items-center gap-1 text-emerald-600 font-semibold"><i data-lucide="shield-check" class="w-4 h-4"></i> Database Aman Terenkripsi di cPanel</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== MODALS / DIALOGS ==================== -->
+
+  <!-- MATERIAL MODAL -->
+  <div id="material-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full max-w-md shadow-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 id="material-modal-title" class="text-md font-bold text-slate-800">Tambah Bahan Baku</h3>
+        <button onclick="closeMaterialModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="material-form" onsubmit="saveMaterial(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="material-edit-id">
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Nama Bahan Baku</label>
+          <input type="text" id="m-name" required placeholder="Misal: Tepung Terigu Segitiga Biru" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Harga Beli Kemasan</label>
+            <input type="number" id="m-price" required min="1" placeholder="Misal: 12500" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Ukuran / Isi Kemasan</label>
+            <input type="number" id="m-size" required min="0.001" step="any" placeholder="Misal: 1" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Satuan Beli (Kemasan)</label>
+            <select id="m-unit" onchange="autoConfigureConversion()" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+              <option value="kg">kg (Kilogram)</option>
+              <option value="gr">gr (Gram)</option>
+              <option value="liter">liter</option>
+              <option value="ml">ml (Mililiter)</option>
+              <option value="pcs">pcs / Biji</option>
+              <option value="pack">pack</option>
+              <option value="box">box</option>
+              <option value="butir">butir</option>
+            </select>
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Satuan Pakai (Resep)</label>
+            <select id="m-usage-unit" onchange="autoConfigureConversion()" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+              <option value="gr">gr (Gram)</option>
+              <option value="kg">kg (Kilogram)</option>
+              <option value="ml">ml (Mililiter)</option>
+              <option value="liter">liter</option>
+              <option value="pcs">pcs / Biji</option>
+              <option value="pack">pack</option>
+              <option value="box">box</option>
+              <option value="butir">butir</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Rasio Konversi Satuan -->
+        <div class="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100/40 space-y-2">
+          <div class="flex justify-between items-center">
+            <label class="font-bold text-slate-700 text-[10px] block">Rasio Konversi Satuan</label>
+            <span class="text-[9px] text-indigo-600 font-bold" id="conversion-helper-text">1 kg = 1000 gr</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 font-semibold shrink-0 text-[11px]">1 <span id="lbl-purch-unit">kg</span> = </span>
+            <input type="number" id="m-conversion-ratio" required min="0.0001" step="any" value="1000" oninput="document.getElementById('conversion-helper-text').innerText = '1 ' + document.getElementById('m-unit').value + ' = ' + this.value + ' ' + document.getElementById('m-usage-unit').value" class="w-full bg-white border rounded-lg px-2.5 py-1.5 focus:ring-1 focus:ring-indigo-500 text-slate-800 font-bold text-xs">
+            <span class="text-slate-500 font-semibold shrink-0 text-[11px]" id="lbl-usage-unit">gr</span>
+          </div>
+          <p class="text-[9px] text-slate-400">Tentukan berapa banyak satuan pakai di dalam 1 satuan beli.</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Catatan / Supplier</label>
+          <input type="text" id="m-notes" placeholder="Misal: Beli di pasar induk" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="flex gap-2 pt-2 justify-end">
+          <button type="button" onclick="closeMaterialModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl cursor-pointer">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl cursor-pointer">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- LABOR MODAL -->
+  <div id="labor-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full max-w-md shadow-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 id="labor-modal-title" class="text-md font-bold text-slate-800">Tambah Tenaga Kerja</h3>
+        <button onclick="closeLaborModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="labor-form" onsubmit="saveLabor(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="labor-edit-id">
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Peran / Nama Posisi</label>
+          <input type="text" id="l-role" required placeholder="Misal: Koki Utama atau Staff Packing" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Tarif Upah (Rp)</label>
+            <input type="number" id="l-rate" required min="1" placeholder="Misal: 15000" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-600 block">Jenis Tarif Upah</label>
+            <select id="l-rate-type" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+              <option value="per_hour">per Jam kerja</option>
+              <option value="per_unit">per Unit produk jadi</option>
+            </select>
+          </div>
+        </div>
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Keterangan Pekerjaan</label>
+          <input type="text" id="l-description" placeholder="Misal: Memasak menu utama di dapur" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="flex gap-2 pt-2 justify-end">
+          <button type="button" onclick="closeLaborModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl cursor-pointer">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl cursor-pointer">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- OVERHEAD MODAL -->
+  <div id="overhead-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full max-w-md shadow-2xl space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 id="overhead-modal-title" class="text-md font-bold text-slate-800">Tambah Biaya Overhead</h3>
+        <button onclick="closeOverheadModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="overhead-form" onsubmit="saveOverhead(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="overhead-edit-id">
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Nama Biaya / BOP</label>
+          <input type="text" id="o-name" required placeholder="Misal: Sewa Ruko Bulanan atau Token Listrik" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Biaya Bulanan (Rp)</label>
+          <input type="number" id="o-cost" required min="1" placeholder="Misal: 450000" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="space-y-1.5">
+          <label class="font-bold text-slate-600 block">Keterangan Biaya</label>
+          <input type="text" id="o-description" placeholder="Misal: Penggunaan listrik operasional blender" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+        </div>
+        <div class="flex gap-2 pt-2 justify-end">
+          <button type="button" onclick="closeOverheadModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl cursor-pointer">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl cursor-pointer">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PRODUCT RECEPT MODAL -->
+  <div id="product-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl border border-slate-100 p-6 w-full max-w-3xl shadow-2xl space-y-5 my-8">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <h3 id="product-modal-title" class="text-md font-bold text-slate-800">Mulai Racik Produk Baru</h3>
+        <button onclick="closeProductModal()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      
+      <form id="product-form" onsubmit="saveProduct(event)" class="space-y-5 text-xs">
+        <input type="hidden" id="product-edit-id">
+        
+        <!-- Grid: Product Specs -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-700 block">Nama Produk Jadi</label>
+            <input type="text" id="p-name" required placeholder="Misal: Martabak Manis Keju" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-700 block">Isi Per Batch Produksi</label>
+            <input type="number" id="p-batch" required min="1" placeholder="Misal: 10 unit" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-700 block">Harga Jual per Unit (Rp)</label>
+            <input type="number" id="p-price" required min="1" placeholder="Misal: 25000" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-700 block">Target Margin Kotor (%)</label>
+            <input type="number" id="p-margin" required min="5" max="95" value="40" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+          </div>
+          <div class="space-y-1.5">
+            <label class="font-bold text-slate-700 block">Gambar / Ilustrasi Produk</label>
+            <select id="p-image" class="w-full bg-slate-50 border rounded-xl px-3 py-2.5 focus:ring-2 focus:ring-indigo-500 text-slate-800 font-semibold">
+              <option value="bakery">Roti & Kue / Bakery</option>
+              <option value="beverage">Kopi & Minuman / Beverage</option>
+              <option value="cuisine">Makanan Utama / Nasi & Mie</option>
+              <option value="snack">Camilan & Jajanan / Snack</option>
+              <option value="other">Lainnya</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Live HPP & Price Recommendation Card -->
+        <div id="modal-live-calc-card" class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="space-y-1 text-center sm:text-left">
+            <span class="text-[10px] text-indigo-500 font-bold uppercase block tracking-wider">Kalkulator Rekomendasi Jual (Live)</span>
+            <div class="flex flex-wrap gap-x-4 justify-center sm:justify-start items-center">
+              <div>
+                <span class="text-slate-500 text-[11px]">HPP per Unit:</span>
+                <span id="p-live-hpp" class="font-mono font-bold text-slate-800 text-sm">Rp 0</span>
+              </div>
+              <div class="hidden sm:block text-slate-300">|</div>
+              <div>
+                <span class="text-indigo-600 text-[11px] font-semibold flex items-center gap-1 justify-center sm:justify-start">
+                  <i data-lucide="sparkles" class="w-3 h-3 text-indigo-500"></i> Rekomendasi Jual:
+                </span>
+                <span id="p-live-suggested" class="font-mono font-bold text-indigo-700 text-sm">Rp 0</span>
+              </div>
+            </div>
+            <p class="text-[9px] text-slate-400">Dihitung otomatis secara real-time berdasarkan resep bahan, tenaga kerja, dan target margin kotor.</p>
+          </div>
+          <button type="button" onclick="applySuggestedPrice()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-[10px] px-3 py-2 rounded-xl transition shrink-0 cursor-pointer flex items-center gap-1.5 shadow-md shadow-indigo-600/10">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i> Gunakan Rekomendasi
+          </button>
+        </div>
+
+        <!-- Component 1: Bahan Baku List Builder -->
+        <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-800">Komposisi Bahan Baku (per Batch)</span>
+            <button type="button" onclick="addProductMaterialRow()" class="text-indigo-600 hover:text-indigo-500 font-bold text-[10px] flex items-center gap-1 cursor-pointer">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>Tambah Bahan
+            </button>
+          </div>
+          <div id="product-materials-container" class="space-y-2 max-h-48 overflow-y-auto">
+            <!-- Row items added here -->
+          </div>
+        </div>
+
+        <!-- Component 2: Tenaga Kerja Langsung Builder -->
+        <div class="border border-slate-100 rounded-2xl p-4 bg-slate-50/50 space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-slate-800">Kebutuhan Tenaga Kerja (per Batch)</span>
+            <button type="button" onclick="addProductLaborRow()" class="text-indigo-600 hover:text-indigo-500 font-bold text-[10px] flex items-center gap-1 cursor-pointer">
+              <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>Tambah Pekerja
+            </button>
+          </div>
+          <div id="product-labor-container" class="space-y-2 max-h-48 overflow-y-auto">
+            <!-- Row items added here -->
+          </div>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="flex gap-2 pt-3 justify-end border-t border-slate-100">
+          <button type="button" onclick="closeProductModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-xl cursor-pointer">Batal</button>
+          <button type="submit" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl cursor-pointer">Simpan & Hitung HPP</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GLOBAL SCRIPT SYSTEM (Pure Modern ES6 JavaScript) -->
+  <script>
+    // Helper to get correct API URL depending on server environment (Node/Vite vs XAMPP/Shared Hosting)
+    function getApiUrl(endpoint) {
+      const isAiStudio = window.location.hostname.includes('run.app') || 
+                         window.location.hostname.includes('studio') || 
+                         window.location.port === '3000';
+                         
+      if (isAiStudio) {
+        return '/api/' + endpoint;
+      }
+      
+      const path = window.location.pathname;
+      if (path === '/' || path === '/index.html') {
+        return '/api/' + endpoint;
+      }
+      
+      return './public/api.php?route=' + endpoint;
+    }
+
+    // State Management
+    let state = {
+      activeTab: 'dashboard',
+      token: localStorage.getItem('hpp_token') || null,
+      user: JSON.parse(localStorage.getItem('hpp_user')) || null,
+      materials: [],
+      labors: [],
+      overheads: [],
+      products: [],
+      monthlyVolume: 1000,
+      recMode: 'individual',
+      globalMargin: 40,
+    };
+
+    // Chart References
+    let costStructureChart = null;
+    let marginComparisonChart = null;
+
+    // Indonesian Culinary Demo Seed Data
+    const DEMO_SEED_DATA = {
+      materials: [
+        { id: "m1", name: "Daging Sapi Giling Spesial", price: 135000, packageSize: 1, unit: "kg", usageUnit: "gr", conversionRatio: 1000, notes: "Suplier daging segar pasar" },
+        { id: "m2", name: "Tepung Tapioka Premium", price: 16000, packageSize: 1, unit: "kg", usageUnit: "gr", conversionRatio: 1000, notes: "Toko Sinar Bahan" },
+        { id: "m3", name: "Bawang Putih Giling", price: 40000, packageSize: 1, unit: "kg", usageUnit: "gr", conversionRatio: 1000, notes: "Pasar tradisional" },
+        { id: "m4", name: "Bawang Merah Goreng", price: 55000, packageSize: 1, unit: "kg", usageUnit: "gr", conversionRatio: 1000, notes: "Pasar tradisional" },
+        { id: "m5", name: "Garam & Bumbu Kaldu", price: 15000, packageSize: 1, unit: "kg", usageUnit: "gr", conversionRatio: 1000, notes: "Grosir bumbu" },
+        { id: "m6", name: "Es Batu Kristal", price: 12000, packageSize: 10, unit: "kg", usageUnit: "kg", conversionRatio: 1, notes: "Depot Es Kristal" },
+        { id: "m7", name: "Kemasan Mangkok & Sendok Plastik", price: 45000, packageSize: 50, unit: "pcs", usageUnit: "pcs", conversionRatio: 1, notes: "Toko Plastik" },
+        { id: "m8", name: "Kuah Bakso Gurih Rempah", price: 20000, packageSize: 1, unit: "pack", usageUnit: "pack", conversionRatio: 1, notes: "Racikan bumbu basah" }
+      ],
+      labors: [
+        { id: "l1", role: "Koki Utama (Pembuat Bakso)", rate: 25000, rateType: "per_hour", description: "Menggiling daging dan mencetak bakso" },
+        { id: "l2", role: "Pelayan / Kasir", rate: 12000, rateType: "per_hour", description: "Melayani pembeli dan kasir" },
+        { id: "l3", role: "Staff Packing Borongan", rate: 1000, rateType: "per_unit", description: "Mengemas bakso beku per pak" }
+      ],
+      overheads: [
+        { id: "o1", cost: 1800000, name: "Sewa Ruko Operasional Bakso", description: "Sewa ruko strategis" },
+        { id: "o2", cost: 450000, name: "Token Listrik & Air Bersih", description: "Penggunaan freezer daging" },
+        { id: "o3", cost: 150000, name: "Tabung Gas Melon 3KG", description: "Bahan bakar kompor kuah bakso" },
+        { id: "o4", cost: 200000, name: "Kuota Internet & Kasir POS", description: "Untuk aplikasi kasir Olsera" }
+      ],
+      products: [
+        {
+          id: "p1",
+          name: "Bakso Sapi Urat Spesial (Porsi Makan)",
+          batchSize: 10,
+          sellingPrice: 28000,
+          targetMargin: 40,
+          image: "cuisine",
+          materials: [
+            { materialId: "m1", quantity: 600 },
+            { materialId: "m2", quantity: 150 },
+            { materialId: "m3", quantity: 50 },
+            { materialId: "m4", quantity: 30 },
+            { materialId: "m5", quantity: 20 },
+            { materialId: "m6", quantity: 2 },
+            { materialId: "m7", quantity: 10 },
+            { materialId: "m8", quantity: 1 }
+          ],
+          labors: [
+            { laborId: "l1", value: 1.5 },
+            { laborId: "l2", value: 2 }
+          ]
+        },
+        {
+          id: "p2",
+          name: "Bakso Sapi Frozen Isi 25 (Kemasan Vacuum)",
+          batchSize: 20,
+          sellingPrice: 55000,
+          targetMargin: 35,
+          image: "snack",
+          materials: [
+            { materialId: "m1", quantity: 1200 },
+            { materialId: "m2", quantity: 300 },
+            { materialId: "m3", quantity: 100 },
+            { materialId: "m4", quantity: 50 },
+            { materialId: "m5", quantity: 40 },
+            { materialId: "m6", quantity: 3 }
+          ],
+          labors: [
+            { laborId: "l1", value: 2 },
+            { laborId: "l3", value: 20 }
+          ]
+        }
+      ],
+      monthlyVolume: 1200
+    };
+
+    // Initialize System
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      bootstrap();
+
+      // Bind live HPP triggers
+      const pBatch = document.getElementById('p-batch');
+      const pMargin = document.getElementById('p-margin');
+      if (pBatch) pBatch.addEventListener('input', calculateModalLiveHpp);
+      if (pMargin) pMargin.addEventListener('input', calculateModalLiveHpp);
+    });
+
+    function bootstrap() {
+      if (state.token) {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('app-screen').classList.remove('hidden');
+        document.getElementById('profile-username').innerText = state.user ? state.user.username : 'User';
+        loadDataFromCloud();
+      } else {
+        document.getElementById('auth-screen').classList.remove('hidden');
+        document.getElementById('app-screen').classList.add('hidden');
+        updateLandingDemo();
+      }
+    }
+
+    // Auth Modal Controllers
+    function openAuthModal(tab = 'login') {
+      const modal = document.getElementById('auth-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+      }
+      toggleAuthTab(tab);
+    }
+
+    function closeAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    // Landing Page Interactive Demo Calculation
+    function updateLandingDemo() {
+      const pName = document.getElementById('demo-product-name')?.value || 'Roti Manis Cokelat';
+      const qty0 = parseFloat(document.getElementById('demo-qty-0')?.value) || 0;
+      const qty1 = parseFloat(document.getElementById('demo-qty-1')?.value) || 0;
+      const qty2 = parseFloat(document.getElementById('demo-qty-2')?.value) || 0;
+      
+      const overhead = parseFloat(document.getElementById('demo-overhead')?.value) || 0;
+      const labor = parseFloat(document.getElementById('demo-labor')?.value) || 0;
+      
+      const margin = parseFloat(document.getElementById('demo-margin')?.value) || 40;
+      
+      // Calculate costs per unit used
+      // Tepung: Rp18.000 / 1000g = Rp18/g
+      const cost0 = qty0 * 18;
+      // Mentega: Rp145.000 / 500g = Rp290/g
+      const cost1 = qty1 * 290;
+      // Cokelat: Rp45.000 / 1000g = Rp45/g
+      const cost2 = qty2 * 45;
+      
+      const totalMaterials = cost0 + cost1 + cost2;
+      const totalHpp = totalMaterials + overhead + labor;
+      
+      // Suggested price
+      const marginFrac = margin / 100;
+      const suggestedRaw = marginFrac < 1 ? totalHpp / (1 - marginFrac) : totalHpp * 2;
+      
+      // Rounding to nearest 500
+      let suggestedPrice = suggestedRaw;
+      if (suggestedPrice > 1000) {
+        suggestedPrice = Math.round(suggestedRaw / 500) * 500;
+      } else {
+        suggestedPrice = Math.round(suggestedRaw / 100) * 100;
+      }
+      
+      const profit = suggestedPrice - totalHpp;
+      
+      // Update UI elements
+      const lblMargin = document.getElementById('lbl-demo-margin');
+      if (lblMargin) lblMargin.innerText = `${margin}%`;
+      
+      const lblHpp = document.getElementById('demo-total-hpp');
+      if (lblHpp) lblHpp.innerText = formatRupiah(totalHpp);
+      
+      const lblSuggested = document.getElementById('demo-suggested-price');
+      if (lblSuggested) lblSuggested.innerText = formatRupiah(suggestedPrice);
+      
+      const lblProfit = document.getElementById('demo-profit');
+      if (lblProfit) lblProfit.innerText = `${formatRupiah(profit)} / unit`;
+    }
+
+    // Auth Screen Tabs
+    let currentAuthTab = 'login';
+    function toggleAuthTab(tab) {
+      currentAuthTab = tab;
+      const loginBtn = document.getElementById('tab-login');
+      const registerBtn = document.getElementById('tab-register');
+      const submitBtn = document.getElementById('auth-submit-btn');
+
+      if (tab === 'login') {
+        loginBtn.classList.add('bg-indigo-600', 'text-white');
+        loginBtn.classList.remove('text-slate-400');
+        registerBtn.classList.remove('bg-indigo-600', 'text-white');
+        registerBtn.classList.add('text-slate-400');
+        submitBtn.innerHTML = '<span>Masuk ke Dashboard</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
+      } else {
+        registerBtn.classList.add('bg-indigo-600', 'text-white');
+        registerBtn.classList.remove('text-slate-400');
+        loginBtn.classList.remove('bg-indigo-600', 'text-white');
+        loginBtn.classList.add('text-slate-400');
+        submitBtn.innerHTML = '<span>Daftar Akun Baru</span><i data-lucide="user-plus" class="w-4 h-4"></i>';
+      }
+      lucide.createIcons();
+    }
+
+    // Handle Authentication Submit
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username').value.trim();
+      const passwordInput = document.getElementById('password').value;
+      const errorDiv = document.getElementById('auth-error');
+      const errorMsg = document.getElementById('auth-error-msg');
+
+      errorDiv.classList.add('hidden');
+
+      const endpoint = currentAuthTab === 'login' ? 'auth/login' : 'auth/register';
+      const url = getApiUrl(endpoint);
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: usernameInput, password: passwordInput })
+        });
+
+        const responseText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonErr) {
+          console.error("Raw response from server:", responseText);
+          const stripHtml = responseText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          throw new Error("Gagal memproses respon server. Detail error: " + (stripHtml || "Respon kosong"));
+        }
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Gagal autentikasi');
+        }
+
+        // Save session
+        localStorage.setItem('hpp_token', data.token);
+        localStorage.setItem('hpp_user', JSON.stringify(data.user));
+        
+        state.token = data.token;
+        state.user = data.user;
+
+        bootstrap();
+      } catch (err) {
+        errorDiv.classList.remove('hidden');
+        errorMsg.innerText = err.message;
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('hpp_token');
+      localStorage.removeItem('hpp_user');
+      state.token = null;
+      state.user = null;
+      bootstrap();
+    }
+
+    // Switch Application Tabs
+    function switchTab(tab) {
+      state.activeTab = tab;
+      
+      // Toggle nav buttons
+      const tabs = ['dashboard', 'materials', 'labor', 'overhead', 'products', 'backup'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`nav-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        if (t === tab) {
+          btn.classList.add('bg-indigo-600', 'text-white');
+          btn.classList.remove('text-slate-400', 'hover:text-white');
+          content.classList.remove('hidden');
+        } else {
+          btn.classList.remove('bg-indigo-600', 'text-white');
+          btn.classList.add('text-slate-400', 'hover:text-white');
+          content.classList.add('hidden');
+        }
+      });
+
+      // Fetch or re-render based on selected tab
+      if (tab === 'dashboard') {
+        renderDashboard();
+      } else if (tab === 'materials') {
+        renderMaterials();
+      } else if (tab === 'labor') {
+        renderLabor();
+      } else if (tab === 'overhead') {
+        renderOverhead();
+      } else if (tab === 'products') {
+        renderProducts();
+      }
+    }
+
+    // Data Load & Save Operations with Server (Express simulated / api.php real)
+    async function loadDataFromCloud() {
+      setSyncStatus('syncing', 'Memuat data dari cloud...');
+      try {
+        const url = getApiUrl('data');
+        const response = await fetch(url, {
+          headers: { 'Authorization': `Bearer ${state.token}` }
+        });
+        
+        const responseText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonErr) {
+          console.error("Raw response from server:", responseText);
+          const stripHtml = responseText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          throw new Error("Detail error: " + (stripHtml || "Respon kosong"));
+        }
+
+        if (response.ok) {
+          state.materials = data.materials || [];
+          state.labors = data.labors || [];
+          state.overheads = data.overheads || [];
+          state.products = data.products || [];
+          state.monthlyVolume = data.monthlyVolume || 1000;
+          
+          document.getElementById('global-monthly-volume').value = state.monthlyVolume;
+          setSyncStatus('success', 'Data tersinkronisasi');
+          renderDashboard();
+        } else {
+          throw new Error(data.message || 'Gagal memuat data');
+        }
+      } catch (err) {
+        setSyncStatus('error', 'Gagal memuat data. ' + err.message);
+        console.error(err);
+      }
+    }
+
+    async function saveDataToCloud() {
+      setSyncStatus('syncing', 'Menyimpan perubahan ke cloud...');
+      try {
+        const url = getApiUrl('data');
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`
+          },
+          body: JSON.stringify({
+            materials: state.materials,
+            labors: state.labors,
+            overheads: state.overheads,
+            products: state.products,
+            monthlyVolume: state.monthlyVolume
+          })
+        });
+
+        const responseText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (jsonErr) {
+          console.error("Raw response from server:", responseText);
+          const stripHtml = responseText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          throw new Error("Detail error: " + (stripHtml || "Respon kosong"));
+        }
+
+        if (response.ok) {
+          setSyncStatus('success', 'Perubahan berhasil disimpan!');
+        } else {
+          throw new Error(data.message || 'Gagal simpan');
+        }
+      } catch (err) {
+        setSyncStatus('error', 'Gagal simpan ke cloud. ' + err.message);
+        console.error(err);
+      }
+    }
+
+    function setSyncStatus(status, text) {
+      const ind = document.getElementById('sync-indicator');
+      const indText = document.getElementById('sync-text');
+
+      if (status === 'syncing') {
+        ind.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span><span id="sync-text">' + text + '</span>';
+        ind.className = "flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-full text-[10px] font-semibold text-amber-400";
+      } else if (status === 'success') {
+        ind.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500"></span><span id="sync-text">' + text + '</span>';
+        ind.className = "flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-full text-[10px] font-semibold text-emerald-400";
+      } else {
+        ind.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span><span id="sync-text">' + text + '</span>';
+        ind.className = "flex items-center gap-1.5 bg-slate-800 px-2.5 py-1 rounded-full text-[10px] font-semibold text-rose-400";
+      }
+    }
+
+    // Helper: format rupiah currency
+    function formatRupiah(number) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        maximumFractionDigits: 0
+      }).format(number);
+    }
+
+    // Core HPP calculations (Matches TypeScript SDK pattern)
+    function calculateProductHpp(product, materials, labors, overheads, monthlyVolume) {
+      let totalMaterialCost = 0;
+      const materialDetails = (product.materials || []).map(pm => {
+        const mat = materials.find(m => m.id === pm.materialId);
+        if (!mat) return { name: 'Bahan Baku Hilang', cost: 0, qty: pm.quantity, unit: '' };
+        const totalUnitsInPackage = mat.packageSize * (mat.conversionRatio || 1);
+        const costPerUsageUnit = totalUnitsInPackage > 0 ? mat.price / totalUnitsInPackage : 0;
+        const cost = costPerUsageUnit * pm.quantity;
+        totalMaterialCost += cost;
+        return { name: mat.name, cost, qty: pm.quantity, unit: mat.usageUnit || mat.unit };
+      });
+
+      let totalLaborCost = 0;
+      const laborDetails = (product.labors || []).map(pl => {
+        const lab = labors.find(l => l.id === pl.laborId);
+        if (!lab) return { role: 'Pekerja Hilang', cost: 0, val: pl.value, rateType: '' };
+        let cost = 0;
+        if (lab.rateType === 'per_hour') {
+          cost = lab.rate * pl.value;
+        } else {
+          cost = lab.rate * pl.value;
+        }
+        totalLaborCost += cost;
+        return { role: lab.role, cost, val: pl.value, rateType: lab.rateType };
+      });
+
+      const totalMonthlyOverhead = overheads.reduce((sum, o) => sum + o.cost, 0);
+      const overheadAllocatedPerUnit = monthlyVolume > 0 ? totalMonthlyOverhead / monthlyVolume : 0;
+      const totalOverheadCost = overheadAllocatedPerUnit * product.batchSize;
+
+      const hppPerBatch = totalMaterialCost + totalLaborCost + totalOverheadCost;
+      const hppPerUnit = product.batchSize > 0 ? hppPerBatch / product.batchSize : 0;
+
+      const revenuePerUnit = product.sellingPrice || 0;
+      const actualProfitPerUnit = revenuePerUnit - hppPerUnit;
+      const actualMargin = revenuePerUnit > 0 ? (actualProfitPerUnit / revenuePerUnit) * 100 : 0;
+
+      return {
+        totalMaterialCost,
+        totalLaborCost,
+        totalOverheadCost,
+        hppPerBatch,
+        hppPerUnit,
+        actualProfitPerUnit,
+        actualMargin,
+        materialDetails,
+        laborDetails
+      };
+    }
+
+    function updateMonthlyVolume(val) {
+      const volume = Math.max(1, parseInt(val) || 1);
+      state.monthlyVolume = volume;
+      saveDataToCloud();
+      renderDashboard();
+    }
+
+    // ==================== DASHBOARD RENDERING & CHARTS ====================
+    function renderDashboard() {
+      // Calculate Stats
+      const totalMaterials = state.materials.length;
+      const totalMonthlyOverhead = state.overheads.reduce((sum, o) => sum + o.cost, 0);
+      const overheadAllocatedPerUnit = state.monthlyVolume > 0 ? totalMonthlyOverhead / state.monthlyVolume : 0;
+
+      let totalProducts = state.products.length;
+      let avgMargin = 0;
+      let thinMarginCount = 0;
+      let projectedMonthlyProfit = 0;
+
+      if (totalProducts > 0) {
+        let marginSum = 0;
+        state.products.forEach(p => {
+          const hpp = calculateProductHpp(p, state.materials, state.labors, state.overheads, state.monthlyVolume);
+          marginSum += hpp.actualMargin;
+          if (hpp.actualMargin < 25) thinMarginCount++;
+          
+          const portionOfVolume = state.monthlyVolume / totalProducts;
+          projectedMonthlyProfit += hpp.actualProfitPerUnit * portionOfVolume;
+        });
+        avgMargin = marginSum / totalProducts;
+      }
+
+      // Update UI Text elements
+      document.getElementById('allocated-overhead-text').innerText = `BOP Terporsi: ${formatRupiah(overheadAllocatedPerUnit)}/unit`;
+      document.getElementById('stat-materials-count').innerText = totalMaterials;
+      document.getElementById('stat-overhead-total').innerText = formatRupiah(totalMonthlyOverhead);
+      document.getElementById('stat-overhead-per-unit').innerText = `Alokasi: ${formatRupiah(overheadAllocatedPerUnit)}/unit`;
+      document.getElementById('stat-avg-margin').innerText = `${avgMargin.toFixed(1)}%`;
+      document.getElementById('stat-projected-profit').innerText = formatRupiah(projectedMonthlyProfit);
+
+      const marginAlert = document.getElementById('stat-margin-alert');
+      if (thinMarginCount > 0) {
+        marginAlert.innerHTML = `<span class="text-rose-500 font-semibold"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 inline mr-1"></i>${thinMarginCount} Produk margin tipis</span>`;
+      } else {
+        marginAlert.innerHTML = `<span class="text-emerald-500 font-semibold"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 inline mr-1"></i>Seluruh margin sehat</span>`;
+      }
+      lucide.createIcons();
+
+      // Render Charts & Recommendations
+      renderCharts(avgMargin);
+      renderRecommendations();
+    }
+
+    function renderCharts(avgMargin) {
+      // 1. Cost Structure Chart (Donut)
+      let materialCostSum = 0;
+      let laborCostSum = 0;
+      let overheadCostSum = 0;
+      let totalHppSum = 0;
+
+      state.products.forEach(p => {
+        const hpp = calculateProductHpp(p, state.materials, state.labors, state.overheads, state.monthlyVolume);
+        materialCostSum += hpp.totalMaterialCost / p.batchSize;
+        laborCostSum += hpp.totalLaborCost / p.batchSize;
+        overheadCostSum += hpp.totalOverheadCost / p.batchSize;
+        totalHppSum += hpp.hppPerUnit;
+      });
+
+      let materialPct = 0;
+      let laborPct = 0;
+      let overheadPct = 0;
+
+      if (totalHppSum > 0) {
+        materialPct = Math.round((materialCostSum / totalHppSum) * 100);
+        laborPct = Math.round((laborCostSum / totalHppSum) * 100);
+        overheadPct = Math.round((overheadCostSum / totalHppSum) * 100);
+      }
+
+      if (costStructureChart) costStructureChart.destroy();
+      const donutCtx = document.getElementById('cost-structure-chart').getContext('2d');
+      costStructureChart = new Chart(donutCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Bahan Baku', 'Tenaga Kerja', 'Overhead (BOP)'],
+          datasets: [{
+            data: totalHppSum > 0 ? [materialPct, laborPct, overheadPct] : [100, 0, 0],
+            backgroundColor: totalHppSum > 0 ? ['#38bdf8', '#6366f1', '#34d399'] : ['#f1f5f9', '#f1f5f9', '#f1f5f9'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { font: { size: 10 } }
+            }
+          }
+        }
+      });
+
+      // 2. Pricing Comparison Bar Chart
+      const labels = state.products.map(p => p.name);
+      const hppData = [];
+      const sellPrices = [];
+      const margins = [];
+
+      state.products.forEach(p => {
+        const calc = calculateProductHpp(p, state.materials, state.labors, state.overheads, state.monthlyVolume);
+        hppData.push(Math.round(calc.hppPerUnit));
+        sellPrices.push(p.sellingPrice);
+        margins.push(calc.actualMargin.toFixed(1));
+      });
+
+      if (marginComparisonChart) marginComparisonChart.destroy();
+      const barCtx = document.getElementById('margin-comparison-chart').getContext('2d');
+      marginComparisonChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'HPP per Unit (Rp)',
+              data: hppData,
+              backgroundColor: '#6366f1',
+              borderRadius: 6
+            },
+            {
+              label: 'Harga Jual (Rp)',
+              data: sellPrices,
+              backgroundColor: '#34d399',
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'top', labels: { font: { size: 10 } } }
+          },
+          scales: {
+            y: {
+              ticks: { font: { size: 9 } },
+              grid: { color: '#f1f5f9' }
+            },
+            x: {
+              ticks: { font: { size: 9 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    function setRecMode(mode) {
+      state.recMode = mode;
+      const indBtn = document.getElementById('btn-rec-indiv');
+      const globBtn = document.getElementById('btn-rec-global');
+      const slider = document.getElementById('global-slider-panel');
+
+      if (mode === 'individual') {
+        indBtn.classList.add('bg-slate-900', 'text-white');
+        indBtn.classList.remove('text-slate-500');
+        globBtn.classList.remove('bg-slate-900', 'text-white');
+        globBtn.classList.add('text-slate-500');
+        slider.classList.add('hidden');
+      } else {
+        globBtn.classList.add('bg-slate-900', 'text-white');
+        globBtn.classList.remove('text-slate-500');
+        indBtn.classList.remove('bg-slate-900', 'text-white');
+        indBtn.classList.add('text-slate-500');
+        slider.classList.remove('hidden');
+      }
+      renderRecommendations();
+    }
+
+    function handleGlobalMarginChange(val) {
+      state.globalMargin = parseInt(val) || 40;
+      document.getElementById('global-margin-badge').innerText = `${state.globalMargin}%`;
+      renderRecommendations();
+    }
+
+    function presetGlobalMargin(val) {
+      state.globalMargin = val;
+      document.getElementById('global-margin-range').value = val;
+      document.getElementById('global-margin-badge').innerText = `${val}%`;
+      renderRecommendations();
+    }
+
+    function renderRecommendations() {
+      const container = document.getElementById('recommendations-container');
+      container.innerHTML = '';
+
+      if (state.products.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-8 text-center text-slate-400 text-xs">
+            <i data-lucide="sparkles" class="w-8 h-8 text-slate-200 mx-auto mb-2"></i>
+            Input produk terlebih dahulu untuk melihat rekomendasi harga jual.
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      state.products.forEach(p => {
+        const hppData = calculateProductHpp(p, state.materials, state.labors, state.overheads, state.monthlyVolume);
+        const hpp = hppData.hppPerUnit;
+        const currentPrice = p.sellingPrice;
+        const activeTarget = state.recMode === 'individual' ? p.targetMargin : state.globalMargin;
+
+        const marginFrac = activeTarget / 100;
+        const suggestedRaw = marginFrac < 1 ? hpp / (1 - marginFrac) : hpp * 2;
+        
+        let suggestedPrice = suggestedRaw;
+        if (suggestedPrice > 1000) {
+          suggestedPrice = Math.round(suggestedRaw / 500) * 500;
+        } else {
+          suggestedPrice = Math.round(suggestedRaw / 100) * 100;
+        }
+
+        const isUnderpriced = currentPrice < suggestedPrice;
+        const priceDiff = suggestedPrice - currentPrice;
+        const currentProfit = currentPrice - hpp;
+        const suggestedProfit = suggestedPrice - hpp;
+
+        const card = document.createElement('div');
+        card.className = `rounded-2xl border p-5 transition flex flex-col justify-between space-y-4 ${
+          isUnderpriced 
+            ? "border-amber-200 bg-amber-50/10 hover:border-amber-300" 
+            : "border-slate-100 bg-white hover:border-slate-200"
+        }`;
+
+        card.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex justify-between items-start gap-2">
+              <span class="text-xs font-bold text-slate-800 line-clamp-1">${p.name}</span>
+              <span class="text-[9px] font-bold px-2 py-0.5 rounded-full shrink-0 ${
+                activeTarget < 25 ? "bg-rose-50 text-rose-600" : "bg-emerald-50 text-emerald-600"
+              }">Target ${activeTarget}%</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-[10px] text-slate-500">
+              <span>HPP:</span>
+              <span class="font-mono font-bold text-slate-700">${formatRupiah(hpp)}</span>
+              <span class="text-slate-300">|</span>
+              <span>Batch: ${p.batchSize} unit</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 bg-slate-50 rounded-xl p-3 border border-slate-100 text-center">
+            <div>
+              <span class="text-[9px] text-slate-400 font-bold uppercase block">Sekarang</span>
+              <span class="text-xs font-mono font-bold text-slate-600 block">${formatRupiah(currentPrice)}</span>
+              <span class="text-[9px] text-slate-400 block">Profit: ${formatRupiah(currentProfit)}</span>
+            </div>
+            <div class="border-l border-slate-200 pl-2">
+              <span class="text-[9px] text-indigo-500 font-bold uppercase block flex items-center justify-center gap-1">Rekomendasi</span>
+              <span class="text-xs font-mono font-bold text-slate-900 block">${formatRupiah(suggestedPrice)}</span>
+              <span class="text-[9px] text-emerald-600 font-bold block">Profit: ${formatRupiah(suggestedProfit)}</span>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-50">
+            ${isUnderpriced 
+              ? `<div class="flex items-center gap-1 text-[9px] font-semibold text-amber-800 bg-amber-100/40 p-2 rounded-lg">
+                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i>
+                   <span>Naikkan harga ${formatRupiah(priceDiff)} untuk profit sehat.</span>
+                 </div>`
+              : `<div class="flex items-center gap-1 text-[9px] font-semibold text-emerald-800 bg-emerald-50 p-2 rounded-lg">
+                   <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                   <span>Sesuai target! Margin sekarang (${hppData.actualMargin.toFixed(0)}%) aman.</span>
+                 </div>`
+            }
+          </div>
+        `;
+        container.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // ==================== MATERIALS OPERATIONS ====================
+    function renderMaterials() {
+      const tbody = document.getElementById('materials-table-body');
+      tbody.innerHTML = '';
+      const filterValue = document.getElementById('material-search').value.toLowerCase();
+
+      const filtered = state.materials.filter(m => m.name.toLowerCase().includes(filterValue));
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-8 text-center text-slate-400">Belum ada bahan baku terdaftar. Silakan klik Tambah Bahan Baru.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(m => {
+        const totalUnitsInPackage = m.packageSize * (m.conversionRatio || 1);
+        const costPerUsageUnit = totalUnitsInPackage > 0 ? m.price / totalUnitsInPackage : 0;
+        const uUnit = m.usageUnit || m.unit;
+        
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/50 transition";
+        tr.innerHTML = `
+          <td class="px-6 py-4 font-bold text-slate-700">${m.name}</td>
+          <td class="px-6 py-4 font-mono font-medium text-slate-600">${formatRupiah(m.price)}</td>
+          <td class="px-6 py-4">
+            <span class="block text-slate-700 font-semibold">${m.packageSize} ${m.unit}</span>
+            ${m.unit !== uUnit ? `<span class="block text-[10px] text-slate-400 font-medium">1 ${m.unit} = ${m.conversionRatio || 1} ${uUnit}</span>` : ''}
+          </td>
+          <td class="px-6 py-4 text-right font-mono font-bold text-slate-800">
+            <span class="block text-indigo-600 font-bold">${formatRupiah(costPerUsageUnit)} /${uUnit}</span>
+            ${m.unit !== uUnit ? `<span class="block text-[10px] text-slate-400 font-normal">(${formatRupiah(m.price / m.packageSize)} /${m.unit})</span>` : ''}
+          </td>
+          <td class="px-6 py-4 text-slate-400">${m.notes || '-'}</td>
+          <td class="px-6 py-4 text-right space-x-1.5 whitespace-nowrap">
+            <button onclick="editMaterial('${m.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">Edit</button>
+            <button onclick="deleteMaterial('${m.id}')" class="text-rose-600 hover:text-rose-800 font-bold cursor-pointer">Hapus</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function autoConfigureConversion() {
+      const pUnit = document.getElementById('m-unit').value;
+      const uUnit = document.getElementById('m-usage-unit').value;
+      
+      document.getElementById('lbl-purch-unit').innerText = pUnit;
+      document.getElementById('lbl-usage-unit').innerText = uUnit;
+      
+      let ratio = 1;
+      if (pUnit === 'kg' && uUnit === 'gr') {
+        ratio = 1000;
+      } else if (pUnit === 'liter' && uUnit === 'ml') {
+        ratio = 1000;
+      } else if (pUnit === uUnit) {
+        ratio = 1;
+      }
+      
+      document.getElementById('m-conversion-ratio').value = ratio;
+      document.getElementById('conversion-helper-text').innerText = `1 ${pUnit} = ${ratio} ${uUnit}`;
+    }
+
+    function openMaterialModal(id = '') {
+      const form = document.getElementById('material-form');
+      form.reset();
+      document.getElementById('material-edit-id').value = id;
+
+      if (id) {
+        document.getElementById('material-modal-title').innerText = 'Edit Bahan Baku';
+        const mat = state.materials.find(m => m.id === id);
+        if (mat) {
+          document.getElementById('m-name').value = mat.name;
+          document.getElementById('m-price').value = mat.price;
+          document.getElementById('m-size').value = mat.packageSize;
+          document.getElementById('m-unit').value = mat.unit;
+          document.getElementById('m-notes').value = mat.notes || '';
+          
+          document.getElementById('m-usage-unit').value = mat.usageUnit || mat.unit;
+          document.getElementById('m-conversion-ratio').value = mat.conversionRatio || 1;
+          
+          document.getElementById('lbl-purch-unit').innerText = mat.unit;
+          document.getElementById('lbl-usage-unit').innerText = mat.usageUnit || mat.unit;
+          document.getElementById('conversion-helper-text').innerText = `1 ${mat.unit} = ${mat.conversionRatio || 1} ${mat.usageUnit || mat.unit}`;
+        }
+      } else {
+        document.getElementById('material-modal-title').innerText = 'Tambah Bahan Baku';
+        document.getElementById('m-unit').value = 'kg';
+        document.getElementById('m-usage-unit').value = 'gr';
+        document.getElementById('m-conversion-ratio').value = 1000;
+        
+        document.getElementById('lbl-purch-unit').innerText = 'kg';
+        document.getElementById('lbl-usage-unit').innerText = 'gr';
+        document.getElementById('conversion-helper-text').innerText = '1 kg = 1000 gr';
+      }
+
+      document.getElementById('material-modal').classList.remove('hidden');
+    }
+
+    function closeMaterialModal() {
+      document.getElementById('material-modal').classList.add('hidden');
+    }
+
+    function saveMaterial(e) {
+      e.preventDefault();
+      const id = document.getElementById('material-edit-id').value;
+      const name = document.getElementById('m-name').value.trim();
+      const price = parseFloat(document.getElementById('m-price').value);
+      const size = parseFloat(document.getElementById('m-size').value);
+      const unit = document.getElementById('m-unit').value;
+      const usageUnit = document.getElementById('m-usage-unit').value;
+      const conversionRatio = parseFloat(document.getElementById('m-conversion-ratio').value) || 1;
+      const notes = document.getElementById('m-notes').value.trim();
+
+      if (id) {
+        state.materials = state.materials.map(m => m.id === id ? { ...m, name, price, packageSize: size, unit, usageUnit, conversionRatio, notes } : m);
+      } else {
+        const newId = 'm_' + Date.now();
+        state.materials.push({ id: newId, name, price, packageSize: size, unit, usageUnit, conversionRatio, notes });
+      }
+
+      closeMaterialModal();
+      saveDataToCloud();
+      renderMaterials();
+    }
+
+    function deleteMaterial(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus bahan baku ini?')) {
+        state.materials = state.materials.filter(m => m.id !== id);
+        saveDataToCloud();
+        renderMaterials();
+      }
+    }
+
+    // ==================== LABOR OPERATIONS ====================
+    function renderLabor() {
+      const tbody = document.getElementById('labor-table-body');
+      tbody.innerHTML = '';
+
+      if (state.labors.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-8 text-center text-slate-400">Belum ada tenaga kerja terdaftar. Silakan klik Tambah Tenaga Kerja.</td></tr>`;
+        return;
+      }
+
+      state.labors.forEach(l => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/50 transition";
+        tr.innerHTML = `
+          <td class="px-6 py-4 font-bold text-slate-700">${l.role}</td>
+          <td class="px-6 py-4 font-mono font-medium">${formatRupiah(l.rate)}</td>
+          <td class="px-6 py-4">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${
+              l.rateType === 'per_hour' ? 'bg-sky-50 text-sky-600' : 'bg-indigo-50 text-indigo-600'
+            }">${l.rateType === 'per_hour' ? 'per Jam' : 'per Unit'}</span>
+          </td>
+          <td class="px-6 py-4 text-slate-400">${l.description || '-'}</td>
+          <td class="px-6 py-4 text-right space-x-1.5 whitespace-nowrap">
+            <button onclick="editLabor('${l.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">Edit</button>
+            <button onclick="deleteLabor('${l.id}')" class="text-rose-600 hover:text-rose-800 font-bold cursor-pointer">Hapus</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openLaborModal(id = '') {
+      const form = document.getElementById('labor-form');
+      form.reset();
+      document.getElementById('labor-edit-id').value = id;
+
+      if (id) {
+        document.getElementById('labor-modal-title').innerText = 'Edit Tenaga Kerja';
+        const lab = state.labors.find(l => l.id === id);
+        if (lab) {
+          document.getElementById('l-role').value = lab.role;
+          document.getElementById('l-rate').value = lab.rate;
+          document.getElementById('l-rate-type').value = lab.rateType;
+          document.getElementById('l-description').value = lab.description || '';
+        }
+      } else {
+        document.getElementById('labor-modal-title').innerText = 'Tambah Tenaga Kerja';
+      }
+
+      document.getElementById('labor-modal').classList.remove('hidden');
+    }
+
+    function closeLaborModal() {
+      document.getElementById('labor-modal').classList.add('hidden');
+    }
+
+    function saveLabor(e) {
+      e.preventDefault();
+      const id = document.getElementById('labor-edit-id').value;
+      const role = document.getElementById('l-role').value.trim();
+      const rate = parseFloat(document.getElementById('l-rate').value);
+      const rateType = document.getElementById('l-rate-type').value;
+      const description = document.getElementById('l-description').value.trim();
+
+      if (id) {
+        state.labors = state.labors.map(l => l.id === id ? { ...l, role, rate, rateType, description } : l);
+      } else {
+        const newId = 'l_' + Date.now();
+        state.labors.push({ id: newId, role, rate, rateType, description });
+      }
+
+      closeLaborModal();
+      saveDataToCloud();
+      renderLabor();
+    }
+
+    function deleteLabor(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus peran tenaga kerja ini?')) {
+        state.labors = state.labors.filter(l => l.id !== id);
+        saveDataToCloud();
+        renderLabor();
+      }
+    }
+
+    // ==================== OVERHEAD OPERATIONS ====================
+    function renderOverhead() {
+      const tbody = document.getElementById('overhead-table-body');
+      tbody.innerHTML = '';
+
+      if (state.overheads.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-8 text-center text-slate-400">Belum ada pengeluaran overhead operasional (BOP) bulanan.</td></tr>`;
+        return;
+      }
+
+      state.overheads.forEach(o => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/50 transition";
+        tr.innerHTML = `
+          <td class="px-6 py-4 font-bold text-slate-700">${o.name}</td>
+          <td class="px-6 py-4 font-mono font-bold text-indigo-600">${formatRupiah(o.cost)} /bulan</td>
+          <td class="px-6 py-4 text-slate-400">${o.description || '-'}</td>
+          <td class="px-6 py-4 text-right space-x-1.5 whitespace-nowrap">
+            <button onclick="editOverhead('${o.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">Edit</button>
+            <button onclick="deleteOverhead('${o.id}')" class="text-rose-600 hover:text-rose-800 font-bold cursor-pointer">Hapus</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openOverheadModal(id = '') {
+      const form = document.getElementById('overhead-form');
+      form.reset();
+      document.getElementById('overhead-edit-id').value = id;
+
+      if (id) {
+        document.getElementById('overhead-modal-title').innerText = 'Edit Pengeluaran Overhead';
+        const ov = state.overheads.find(o => o.id === id);
+        if (ov) {
+          document.getElementById('o-name').value = ov.name;
+          document.getElementById('o-cost').value = ov.cost;
+          document.getElementById('o-description').value = ov.description || '';
+        }
+      } else {
+        document.getElementById('overhead-modal-title').innerText = 'Tambah Biaya Overhead';
+      }
+
+      document.getElementById('overhead-modal').classList.remove('hidden');
+    }
+
+    function closeOverheadModal() {
+      document.getElementById('overhead-modal').classList.add('hidden');
+    }
+
+    function saveOverhead(e) {
+      e.preventDefault();
+      const id = document.getElementById('overhead-edit-id').value;
+      const name = document.getElementById('o-name').value.trim();
+      const cost = parseFloat(document.getElementById('o-cost').value);
+      const description = document.getElementById('o-description').value.trim();
+
+      if (id) {
+        state.overheads = state.overheads.map(o => o.id === id ? { ...o, name, cost, description } : o);
+      } else {
+        const newId = 'o_' + Date.now();
+        state.overheads.push({ id: newId, name, cost, description });
+      }
+
+      closeOverheadModal();
+      saveDataToCloud();
+      renderOverhead();
+    }
+
+    function deleteOverhead(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus biaya overhead bulanan ini?')) {
+        state.overheads = state.overheads.filter(o => o.id !== id);
+        saveDataToCloud();
+        renderOverhead();
+      }
+    }
+
+    // ==================== PRODUCTS RECEPT OPERATIONS ====================
+    function renderProducts() {
+      const grid = document.getElementById('products-grid-container');
+      grid.innerHTML = '';
+
+      if (state.products.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center text-slate-400">
+            <i data-lucide="chef-hat" class="w-12 h-12 text-slate-200 mx-auto mb-3 animate-bounce"></i>
+            <h3 class="text-sm font-bold text-slate-700 mb-1">Belum Ada Produk Terkalkulasi</h3>
+            <p class="text-[11px] max-w-sm mx-auto">Klik Mulai Racik Produk Baru untuk menyusun HPP bahan baku & pekerja per batch produk.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      state.products.forEach(p => {
+        const hpp = calculateProductHpp(p, state.materials, state.labors, state.overheads, state.monthlyVolume);
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition duration-300 p-5 flex flex-col justify-between";
+        
+        let iconHtml = '<i data-lucide="chef-hat" class="w-5 h-5 text-indigo-500"></i>';
+        if (p.image === 'beverage') iconHtml = '<i data-lucide="coffee" class="w-5 h-5 text-amber-500"></i>';
+        if (p.image === 'bakery') iconHtml = '<i data-lucide="cake" class="w-5 h-5 text-rose-500"></i>';
+        if (p.image === 'snack') iconHtml = '<i data-lucide="cookie" class="w-5 h-5 text-emerald-500"></i>';
+
+        card.innerHTML = `
+          <div class="space-y-4">
+            <!-- Header -->
+            <div class="flex justify-between items-start gap-2">
+              <div class="flex items-center gap-2">
+                <div class="bg-slate-50 p-2 rounded-xl border border-slate-100">${iconHtml}</div>
+                <div>
+                  <h4 class="font-bold text-slate-800 text-xs line-clamp-1">${p.name}</h4>
+                  <p class="text-[9px] text-slate-400">Isi Batch: ${p.batchSize} unit</p>
+                </div>
+              </div>
+              <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                hpp.actualMargin < 25 ? 'bg-rose-50 text-rose-600' : 'bg-emerald-50 text-emerald-600'
+              }">Margin ${hpp.actualMargin.toFixed(0)}%</span>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="grid grid-cols-2 gap-2 text-center bg-slate-50 border border-slate-50 p-2.5 rounded-xl">
+              <div>
+                <span class="text-[9px] text-slate-400 font-bold uppercase block">HPP / Unit</span>
+                <span class="text-xs font-mono font-bold text-slate-800 block">${formatRupiah(hpp.hppPerUnit)}</span>
+              </div>
+              <div class="border-l border-slate-200">
+                <span class="text-[9px] text-slate-400 font-bold uppercase block">Harga Jual</span>
+                <span class="text-xs font-mono font-extrabold text-indigo-600 block">${formatRupiah(p.sellingPrice)}</span>
+              </div>
+            </div>
+
+            <!-- Cost Distribution Progress Bar -->
+            <div class="space-y-1 text-[9px] font-semibold text-slate-500">
+              <div class="flex justify-between">
+                <span>Rincian Struktur Biaya (per Batch):</span>
+                <span class="font-bold text-slate-700">${formatRupiah(hpp.hppPerBatch)}</span>
+              </div>
+              <div class="h-2 rounded-full overflow-hidden bg-slate-100 flex">
+                <div style="width: ${(hpp.totalMaterialCost / hpp.hppPerBatch) * 100}%" class="bg-sky-400" title="Bahan Baku"></div>
+                <div style="width: ${(hpp.totalLaborCost / hpp.hppPerBatch) * 100}%" class="bg-indigo-400" title="Pekerja"></div>
+                <div style="width: ${(hpp.totalOverheadCost / hpp.hppPerBatch) * 100}%" class="bg-emerald-400" title="Overhead"></div>
+              </div>
+              <div class="flex gap-3 text-[8px] pt-1">
+                <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>Bahan Baku</span>
+                <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>Pekerja</span>
+                <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>BOP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="flex justify-between items-center pt-4 border-t border-slate-50/60 mt-4 text-[10px]">
+            <span class="text-[9px] text-slate-400">Laba Bersih: <b class="font-mono text-emerald-600 font-extrabold">${formatRupiah(hpp.actualProfitPerUnit)}/unit</b></span>
+            <div class="space-x-2">
+              <button onclick="editProduct('${p.id}')" class="text-indigo-600 hover:text-indigo-800 font-bold cursor-pointer">Edit</button>
+              <button onclick="deleteProduct('${p.id}')" class="text-rose-600 hover:text-rose-800 font-bold cursor-pointer">Hapus</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    let lastSuggestedPrice = 0;
+
+    function updateRowUnitText(selectEl) {
+      const materialId = selectEl.value;
+      const badge = selectEl.parentNode.querySelector('.p-mat-unit-badge');
+      if (badge) {
+        if (materialId) {
+          const mat = state.materials.find(m => m.id === materialId);
+          if (mat) {
+            badge.innerText = mat.usageUnit || mat.unit;
+          } else {
+            badge.innerText = 'nilai';
+          }
+        } else {
+          badge.innerText = 'nilai';
+        }
+      }
+      calculateModalLiveHpp();
+    }
+
+    function calculateModalLiveHpp() {
+      const batchInput = document.getElementById('p-batch');
+      const marginInput = document.getElementById('p-margin');
+      if (!batchInput || !marginInput) return;
+
+      const batchSize = parseFloat(batchInput.value) || 1;
+      const targetMargin = parseFloat(marginInput.value) || 40;
+
+      // Sum materials in form
+      let totalMaterialCost = 0;
+      const matRows = document.querySelectorAll('#product-materials-container > div');
+      matRows.forEach(row => {
+        const materialId = row.querySelector('.p-mat-select').value;
+        const qtyInput = row.querySelector('.p-mat-qty');
+        const quantity = qtyInput ? (parseFloat(qtyInput.value) || 0) : 0;
+        if (materialId) {
+          const mat = state.materials.find(m => m.id === materialId);
+          if (mat) {
+            const totalUnitsInPackage = mat.packageSize * (mat.conversionRatio || 1);
+            const costPerUsageUnit = totalUnitsInPackage > 0 ? mat.price / totalUnitsInPackage : 0;
+            totalMaterialCost += costPerUsageUnit * quantity;
+          }
+        }
+      });
+
+      // Sum labors in form
+      let totalLaborCost = 0;
+      const labRows = document.querySelectorAll('#product-labor-container > div');
+      labRows.forEach(row => {
+        const laborId = row.querySelector('.p-lab-select').value;
+        const valInput = row.querySelector('.p-lab-val');
+        const value = valInput ? (parseFloat(valInput.value) || 0) : 0;
+        if (laborId) {
+          const lab = state.labors.find(l => l.id === laborId);
+          if (lab) {
+            totalLaborCost += lab.rate * value;
+          }
+        }
+      });
+
+      // Sum overhead cost
+      const totalOverheadCostVal = state.overheads.reduce((sum, o) => sum + o.cost, 0);
+      const overheadAllocatedPerUnit = state.monthlyVolume > 0 ? totalOverheadCostVal / state.monthlyVolume : 0;
+      const totalOverheadCost = overheadAllocatedPerUnit * batchSize;
+
+      const hppPerBatch = totalMaterialCost + totalLaborCost + totalOverheadCost;
+      const hppPerUnit = batchSize > 0 ? hppPerBatch / batchSize : 0;
+
+      const marginFrac = targetMargin / 100;
+      const suggestedRaw = marginFrac < 1 ? hppPerUnit / (1 - marginFrac) : hppPerUnit * 2;
+      
+      let suggestedPrice = suggestedRaw;
+      if (suggestedPrice > 1000) {
+        suggestedPrice = Math.round(suggestedRaw / 500) * 500;
+      } else {
+        suggestedPrice = Math.round(suggestedRaw / 100) * 100;
+      }
+
+      lastSuggestedPrice = suggestedPrice;
+
+      const liveHppEl = document.getElementById('p-live-hpp');
+      const liveSuggestedEl = document.getElementById('p-live-suggested');
+      if (liveHppEl) liveHppEl.innerText = formatRupiah(hppPerUnit);
+      if (liveSuggestedEl) liveSuggestedEl.innerText = formatRupiah(suggestedPrice);
+    }
+
+    function applySuggestedPrice() {
+      if (lastSuggestedPrice > 0) {
+        const priceInput = document.getElementById('p-price');
+        if (priceInput) {
+          priceInput.value = lastSuggestedPrice;
+          calculateModalLiveHpp();
+        }
+      }
+    }
+
+    function openProductModal(id = '') {
+      const form = document.getElementById('product-form');
+      form.reset();
+      document.getElementById('product-edit-id').value = id;
+      document.getElementById('product-materials-container').innerHTML = '';
+      document.getElementById('product-labor-container').innerHTML = '';
+
+      if (id) {
+        document.getElementById('product-modal-title').innerText = 'Edit Resep & Struktur HPP';
+        const prod = state.products.find(p => p.id === id);
+        if (prod) {
+          document.getElementById('p-name').value = prod.name;
+          document.getElementById('p-batch').value = prod.batchSize;
+          document.getElementById('p-price').value = prod.sellingPrice;
+          document.getElementById('p-margin').value = prod.targetMargin;
+          document.getElementById('p-image').value = prod.image || 'other';
+
+          // Populating materials rows
+          if (prod.materials && prod.materials.length > 0) {
+            prod.materials.forEach(m => addProductMaterialRow(m.materialId, m.quantity));
+          }
+          // Populating labors rows
+          if (prod.labors && prod.labors.length > 0) {
+            prod.labors.forEach(l => addProductLaborRow(l.laborId, l.value));
+          }
+        }
+      } else {
+        document.getElementById('product-modal-title').innerText = 'Mulai Racik Produk Baru';
+        // Add 1 default row to make the form look interactive
+        addProductMaterialRow();
+        addProductLaborRow();
+      }
+
+      document.getElementById('product-modal').classList.remove('hidden');
+      calculateModalLiveHpp();
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.add('hidden');
+    }
+
+    // Material List inside Recipes Modal Builder
+    function addProductMaterialRow(materialId = '', quantity = '') {
+      const container = document.getElementById('product-materials-container');
+      const rowId = 'p_mat_row_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+
+      const div = document.createElement('div');
+      div.id = rowId;
+      div.className = "flex items-center gap-2 bg-slate-100/40 p-2 rounded-xl border border-slate-200/50";
+
+      let optionsHtml = '<option value="">-- Pilih Bahan Baku --</option>';
+      state.materials.forEach(m => {
+        const uUnit = m.usageUnit || m.unit;
+        optionsHtml += `<option value="${m.id}" ${m.id === materialId ? 'selected' : ''}>${m.name} (per ${uUnit})</option>`;
+      });
+
+      const selectedMat = state.materials.find(m => m.id === materialId);
+      const unitLabel = selectedMat ? (selectedMat.usageUnit || selectedMat.unit) : 'nilai';
+
+      div.innerHTML = `
+        <select onchange="updateRowUnitText(this)" class="p-mat-select flex-1 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold" required>
+          ${optionsHtml}
+        </select>
+        <div class="relative w-28">
+          <input type="number" oninput="calculateModalLiveHpp()" class="p-mat-qty w-full bg-white border border-slate-200 rounded-lg pl-2 pr-10 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold" placeholder="Qty" value="${quantity}" min="0.001" step="any" required>
+          <span class="p-mat-unit-badge absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 font-bold">${unitLabel}</span>
+        </div>
+        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
+      `;
+
+      container.appendChild(div);
+      lucide.createIcons();
+      calculateModalLiveHpp();
+    }
+
+    // Labor List inside Recipes Modal Builder
+    function addProductLaborRow(laborId = '', value = '') {
+      const container = document.getElementById('product-labor-container');
+      const rowId = 'p_lab_row_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+
+      const div = document.createElement('div');
+      div.id = rowId;
+      div.className = "flex items-center gap-2 bg-slate-100/40 p-2 rounded-xl border border-slate-200/50";
+
+      let optionsHtml = '<option value="">-- Pilih Peran Pekerja --</option>';
+      state.labors.forEach(l => {
+        const typeLabel = l.rateType === 'per_hour' ? 'jam' : 'unit';
+        optionsHtml += `<option value="${l.id}" ${l.id === laborId ? 'selected' : ''}>${l.role} (per ${typeLabel})</option>`;
+      });
+
+      div.innerHTML = `
+        <select onchange="calculateModalLiveHpp()" class="p-lab-select flex-1 bg-white border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-semibold" required>
+          ${optionsHtml}
+        </select>
+        <div class="relative w-28">
+          <input type="number" oninput="calculateModalLiveHpp()" class="p-lab-val w-full bg-white border border-slate-200 rounded-lg pl-2 pr-8 py-1.5 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-bold" placeholder="Jam/Unit" value="${value}" min="0.01" step="any" required>
+          <span class="absolute right-2 top-1/2 -translate-y-1/2 text-[9px] text-slate-400 font-bold">durasi</span>
+        </div>
+        <button type="button" onclick="removeProductRow('${rowId}')" class="text-slate-400 hover:text-rose-500 p-1 cursor-pointer"><i data-lucide="trash-2" class="w-4.5 h-4.5"></i></button>
+      `;
+
+      container.appendChild(div);
+      lucide.createIcons();
+      calculateModalLiveHpp();
+    }
+
+    function removeProductRow(rowId) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        calculateModalLiveHpp();
+      }
+    }
+
+    function saveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('product-edit-id').value;
+      const name = document.getElementById('p-name').value.trim();
+      const batchSize = parseFloat(document.getElementById('p-batch').value);
+      const sellingPrice = parseFloat(document.getElementById('p-price').value);
+      const targetMargin = parseFloat(document.getElementById('p-margin').value);
+      const image = document.getElementById('p-image').value;
+
+      // Collect Materials Rows
+      const materials = [];
+      const matRows = document.querySelectorAll('#product-materials-container > div');
+      matRows.forEach(row => {
+        const materialId = row.querySelector('.p-mat-select').value;
+        const quantity = parseFloat(row.querySelector('.p-mat-qty').value);
+        if (materialId && quantity) {
+          materials.push({ materialId, quantity });
+        }
+      });
+
+      // Collect Labors Rows
+      const labors = [];
+      const labRows = document.querySelectorAll('#product-labor-container > div');
+      labRows.forEach(row => {
+        const laborId = row.querySelector('.p-lab-select').value;
+        const value = parseFloat(row.querySelector('.p-lab-val').value);
+        if (laborId && value) {
+          labors.push({ laborId, value });
+        }
+      });
+
+      if (id) {
+        state.products = state.products.map(p => p.id === id ? { ...p, name, batchSize, sellingPrice, targetMargin, image, materials, labors } : p);
+      } else {
+        const newId = 'p_' + Date.now();
+        state.products.push({ id: newId, name, batchSize, sellingPrice, targetMargin, image, materials, labors });
+      }
+
+      closeProductModal();
+      saveDataToCloud();
+      renderProducts();
+    }
+
+    function deleteProduct(id) {
+      if (confirm('Apakah Anda yakin ingin menghapus kalkulasi produk ini?')) {
+        state.products = state.products.filter(p => p.id !== id);
+        saveDataToCloud();
+        renderProducts();
+      }
+    }
+
+    // ==================== BACKUP & DEMO OPERATIONS ====================
+    function exportDatabase() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `HPP_Backup_${state.user ? state.user.username : 'User'}_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function importDatabase(e) {
+      const fileReader = new FileReader();
+      fileReader.onload = function(event) {
+        try {
+          const imported = JSON.parse(event.target.result);
+          if (imported.materials || imported.labors || imported.products) {
+            state.materials = imported.materials || [];
+            state.labors = imported.labors || [];
+            state.overheads = imported.overheads || [];
+            state.products = imported.products || [];
+            state.monthlyVolume = imported.monthlyVolume || 1000;
+            
+            document.getElementById('global-monthly-volume').value = state.monthlyVolume;
+            saveDataToCloud();
+            alert('Database berhasil diimpor!');
+            switchTab('dashboard');
+          } else {
+            alert('Format file JSON cadangan tidak cocok.');
+          }
+        } catch (err) {
+          alert('Gagal membaca file cadangan JSON.');
+        }
+      };
+      fileReader.readAsText(e.target.files[0]);
+    }
+
+    function loadSeedData() {
+      if (confirm('Apakah Anda yakin ingin memuat data demo kuliner Bakso Indonesia? Tindakan ini akan menimpa data Anda saat ini.')) {
+        state.materials = [...DEMO_SEED_DATA.materials];
+        state.labors = [...DEMO_SEED_DATA.labors];
+        state.overheads = [...DEMO_SEED_DATA.overheads];
+        state.products = [...DEMO_SEED_DATA.products];
+        state.monthlyVolume = DEMO_SEED_DATA.monthlyVolume;
+        
+        document.getElementById('global-monthly-volume').value = state.monthlyVolume;
+        saveDataToCloud();
+        alert('Data demo kuliner Nusantara berhasil dimuat!');
+        switchTab('dashboard');
+      }
+    }
+
+    function resetAllData() {
+      if (confirm('Apakah Anda benar-benar yakin ingin menghapus seluruh database Anda? Tindakan ini tidak dapat dibatalkan.')) {
+        state.materials = [];
+        state.labors = [];
+        state.overheads = [];
+        state.products = [];
+        state.monthlyVolume = 1000;
+        
+        document.getElementById('global-monthly-volume').value = 1000;
+        saveDataToCloud();
+        alert('Database telah dibersihkan!');
+        switchTab('dashboard');
+      }
+    }
+
+    // Shorthand aliases to connect HTML button onclicks to modal openers
+    function editMaterial(id) { openMaterialModal(id); }
+    function editLabor(id) { openLaborModal(id); }
+    function editOverhead(id) { openOverheadModal(id); }
+    function editProduct(id) { openProductModal(id); }
+  </script>
+</body>
+</html>
