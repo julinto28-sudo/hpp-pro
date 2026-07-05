@@ -1,6 +1,0 @@
-{
-  "name": "HPP Profesional",
-  "description": "Aplikasi kalkulator Harga Pokok Penjualan (HPP) profesional untuk menghitung biaya bahan baku, tenaga kerja langsung, dan overhead secara otomatis.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
